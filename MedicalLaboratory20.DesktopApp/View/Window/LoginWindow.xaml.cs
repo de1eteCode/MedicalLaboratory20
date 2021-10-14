@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MedicalLaboratory20.DesktopApp
+namespace MedicalLaboratory20.DesktopApp.View.Window
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginWindow : System.Windows.Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }

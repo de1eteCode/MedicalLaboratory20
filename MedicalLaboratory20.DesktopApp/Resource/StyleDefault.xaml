@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--
+        Использование логотипа
+        Все экранные формы пользовательского интерфейса должны иметь заголовок с логотипом (в ресурсах). 
+        Не искажайте логотип (не изменяйте изображение, его пропорции, цвет).
+        Также для приложений должна быть установлена иконка.
+    
+        Шрифт
+        Используйте шрифт Comic Sans MS.
+    
+        Цветовая схема
+        В	качестве основного фона используется белый цвет; в качестве дополнительного: RGB (118, 227, 131).
+        Для акцентирования внимания пользователя на целевое действие интерфейса используйте цвет RGB (73, 140,81).
+    -->
+
+    <!-- Global -->
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="FontFamily" Value="Comic Sans MS"/>
+    </Style>
+
+
+</ResourceDictionary>

@@ -21,4 +21,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Hubs\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

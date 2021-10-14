@@ -5,10 +5,17 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resource\logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.11" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\Page\" />
+    <Folder Include="View\Page\" />
   </ItemGroup>
 
 </Project>
