@@ -9,9 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E22BE44C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalLaboratory20.WebAPI", "MedicalLaboratory20.WebAPI\MedicalLaboratory20.WebAPI.csproj", "{589CAF70-FD2B-4959-83F1-0284D5268E6F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{BA00DE4F-0609-475D-83E4-80286B984E35}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{8F8A1E7E-D8D8-4A5E-A459-88EF5972C22E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModels", "DataModels\DataModels.csproj", "{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{2970BFA6-4B37-44AC-AFC8-4E189E6C8AE5}"
 	ProjectSection(SolutionItems) = preProject
-		LinksAndRes.txt = LinksAndRes.txt
+		Resources\LinksAndRes.md = Resources\LinksAndRes.md
+		Resources\WorldSkilsBD.mdf = Resources\WorldSkilsBD.mdf
+		Resources\WorldSkilsBD_log.ldf = Resources\WorldSkilsBD_log.ldf
 	EndProjectSection
 EndProject
 Global
@@ -48,9 +54,24 @@ Global
 		{589CAF70-FD2B-4959-83F1-0284D5268E6F}.Release|iPhone.Build.0 = Release|Any CPU
 		{589CAF70-FD2B-4959-83F1-0284D5268E6F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{589CAF70-FD2B-4959-83F1-0284D5268E6F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|iPhone.Build.0 = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FDE4C034-3444-4B06-A7D7-46B96EF5A8C2} = {8F8A1E7E-D8D8-4A5E-A459-88EF5972C22E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9554F934-97F8-4498-9BD0-C6C206CE8D15}

@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "localhost": "Data Source=localhost;Initial Catalog=WorldSkillsBD;Integrated Security=True"
+  }
+}
