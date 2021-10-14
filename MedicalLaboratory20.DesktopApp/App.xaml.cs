@@ -27,7 +27,7 @@ namespace MedicalLaboratory20.DesktopApp
             authForm.ShowDialog();
 
             var result = authForm.DataContext as LoginVM;
-            if (result.IsLoggedIn)
+            if (result.IsLogIn)
             {
                 var window = new PresentorWindow();
                 window.Closed += ClosedWindow;
@@ -39,9 +39,9 @@ namespace MedicalLaboratory20.DesktopApp
         {
             if (sender is LoginWindow lWind)
             {
-                _closing = ((LoginVM)lWind.DataContext).IsLoggedIn is false;
+                _closing = ((LoginVM)lWind.DataContext).IsLogIn is false;
             }
-            else if (sender is PresentorWindow)
+            else
             {
                 _closing = true;
             }

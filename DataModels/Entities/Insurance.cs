@@ -1,6 +1,6 @@
 ﻿using DataModels.Abstract;
 
-namespace DataModels
+namespace DataModels.Entities
 {
     public class Insurance : BaseEntity
     {
@@ -10,6 +10,6 @@ namespace DataModels
         public string P { get; set; }
         public string BIK { get; set; }
 
-        public Patient Patient { get; set; }
+        public virtual Patient Patient { get; set; }
     }
 }

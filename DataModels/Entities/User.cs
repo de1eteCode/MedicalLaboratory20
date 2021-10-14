@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DataModels
+namespace DataModels.Entities
 {
     public class User : BaseEntity
     {
@@ -13,7 +13,7 @@ namespace DataModels
         public DateTime LastEnter { get; set; }
         public int RoleId { get; set; }
 
-        public IEnumerable<Services> Services { get; set; }
-        public IEnumerable<OrderService> OrderServices { get; set; }
+        public virtual IEnumerable<Service> Services { get; set; }
+        public virtual IEnumerable<OrderService> OrderServices { get; set; }
     }
 }

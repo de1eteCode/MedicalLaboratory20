@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataModels
+namespace DataModels.Entities
 {
     public class Order : BaseEntity
     {
@@ -10,7 +10,7 @@ namespace DataModels
         [Timestamp]
         public string DateTimestamp { get; set; }
 
-        public Patient Patient { get; set; }
-        public IEnumerable<OrderService> OrderServices { get; set; }
+        public virtual Patient Patient { get; set; }
+        public virtual IEnumerable<OrderService> OrderServices { get; set; }
     }
 }

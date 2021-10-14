@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataModels
+namespace DataModels.Entities
 {
     public class Patient : BaseEntity
     {
@@ -19,9 +19,9 @@ namespace DataModels
         public string BrithdateTimestamp { get; set; }
         public string Coutry { get; set; }
 
-        public Insurance Insurance { get; set; }
-        public Safety Safety { get; set; }
-        public Social Social { get; set; }
-        public IEnumerable<Order> Orders { get; set; }
+        public virtual Insurance Insurance { get; set; }
+        public virtual Safety Safety { get; set; }
+        public virtual Social Social { get; set; }
+        public virtual IEnumerable<Order> Orders { get; set; }
     }
 }

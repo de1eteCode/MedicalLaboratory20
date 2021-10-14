@@ -1,6 +1,6 @@
 ﻿using DataModels.Abstract;
 
-namespace DataModels
+namespace DataModels.Entities
 {
     public class Social : BaseEntity
     {
@@ -8,6 +8,6 @@ namespace DataModels
         public string EIN { get; set; }
         public string SocialType { get; set; }
 
-        public Patient Patient { get; set; }
+        public virtual Patient Patient { get; set; }
     }
 }

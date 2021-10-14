@@ -13,7 +13,7 @@ namespace MedicalLaboratory20.DesktopApp.ViewModel.Window
     class LoginVM : ObservableObject, IWinVM
     {
         private ICommand _loginCommand;
-        public bool IsLoggedIn { get; set; }
+        public bool IsLogIn { get; set; }
 
 
         public ICommand LoginCommand
@@ -26,7 +26,7 @@ namespace MedicalLaboratory20.DesktopApp.ViewModel.Window
 
         private void LogInSystem()
         {
-            IsLoggedIn = true;
+            IsLogIn = true;
         }
     }
 }
