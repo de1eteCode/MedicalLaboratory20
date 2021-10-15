@@ -1,4 +1,5 @@
-﻿using MedicalLaboratory20.DesktopApp.View.Window;
+﻿using MedicalLaboratory20.DesktopApp.Services;
+using MedicalLaboratory20.DesktopApp.View.Window;
 using MedicalLaboratory20.DesktopApp.ViewModel;
 using MedicalLaboratory20.DesktopApp.ViewModel.Window;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -18,8 +20,14 @@ namespace MedicalLaboratory20.DesktopApp
     {
         private bool _closing = false;
 
+        static App()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            test();
             base.OnStartup(e);
 
             var authForm = new LoginWindow();
@@ -33,6 +41,15 @@ namespace MedicalLaboratory20.DesktopApp
                 window.Closed += ClosedWindow;
                 window.Show();
             }
+        }
+
+        private void test()
+        {
+            var client = ClientService.GetInstance();
+
+            client.Auth("chacking0", "4tzqHdkqzo4");
+
+            var user = client.User;
         }
 
         private void ClosedWindow(object? sender, EventArgs e)
