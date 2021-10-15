@@ -39,7 +39,6 @@ namespace MedicalLaboratory20.WebAPI
             {
                 option.UseLazyLoadingProxies();
 
-
                 option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
@@ -65,11 +64,11 @@ namespace MedicalLaboratory20.WebAPI
 
             services.AddControllers().AddJsonOptions(opt =>
             {
+                // Отключает рекурсию в json ссылках
                 opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
