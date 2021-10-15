@@ -1,14 +1,9 @@
-﻿using DataModels.Abstract;
-using System.Collections.Generic;
-
-namespace DataModels.Entities
+﻿namespace DataModels.Entities
 {
-    public class Service : BaseEntity
+    public class Service
     {
+        public int Id { get; set; }
         public string ServiceName { get; set; }
-        public int Price { get; set; }
-
-        public virtual IEnumerable<User> Users { get; set; }
-        public virtual IEnumerable<OrderService> OrderServices { get; set; }
+        public double Price { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace MedicalLaboratory20.WebAPI
 
             services.AddDbContext<LaboratoryContext>(option =>
             {
-                option.UseSqlServer(Configuration["ConnectionStrings:localhost"], opt =>
+                option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
                 });
@@ -53,6 +53,7 @@ namespace MedicalLaboratory20.WebAPI
             services.AddTransient<IServiceRepository, ServiceRepository>();
             services.AddTransient<ISocialRepository, SocialRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserServiceRepository, UserServiceRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             #endregion

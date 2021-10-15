@@ -9,22 +9,46 @@ namespace DataAccess.EFCore.EntityConfiguration
         public void Configure(EntityTypeBuilder<OrderService> builder)
         {
             builder
-                .HasKey(x =>  x.Id);
+                .HasNoKey();
 
             builder
-                .HasOne<Service>(p => p.Service)
-                .WithMany(p => p.OrderServices)
-                .HasForeignKey("ServiceId");
+                .ToTable("OrderService");
 
             builder
-                .HasOne<User>(p => p.User)
-                .WithMany(p => p.OrderServices)
-                .HasForeignKey("UserId");
+                .Property(e => e.Analyzer)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             builder
-                .HasOne<Order>(p => p.Order)
-                .WithMany(p => p.OrderServices)
-                .HasForeignKey("OrderId");
+                .Property(e => e.FinishedTimestamp)
+                .IsRowVersion()
+                .IsConcurrencyToken();
+
+            builder
+                .Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            builder
+                .HasOne(d => d.Order)
+                .WithMany()
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Blood-Services_Blood");
+
+            builder
+                .HasOne(d => d.Service)
+                .WithMany()
+                .HasForeignKey(d => d.ServiceCode)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Blood-Services_Services");
+
+            builder
+                .HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Blood-Services_Users");
         }
     }
 }

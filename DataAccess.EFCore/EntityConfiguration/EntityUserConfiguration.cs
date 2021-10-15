@@ -8,13 +8,31 @@ namespace DataAccess.EFCore.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.
-                HasKey(x => x.Id);
+            builder
+                .Property(e => e.Ip)
+                .HasMaxLength(16)
+                .IsUnicode(false);
 
             builder
-                .HasMany(p => p.Services)
-                .WithMany(p => p.Users)
-                .UsingEntity(p => p.ToTable("UserServices"));
+                .Property(e => e.LastEnter)
+                .HasColumnType("date");
+
+            builder
+                .Property(e => e.Login)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            builder
+                .Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            builder.Property(e => e.Password)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
         }
     }
 }

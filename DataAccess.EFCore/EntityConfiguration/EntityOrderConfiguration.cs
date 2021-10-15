@@ -9,11 +9,24 @@ namespace DataAccess.EFCore.EntityConfiguration
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .ToTable("Order");
 
             builder
-                .HasOne(p => p.Patient)
-                .WithMany(p => p.Orders);
+                .Property(e => e.Barcode)
+                .HasMaxLength(7)
+                .IsUnicode(false);
+
+            builder
+                .Property(e => e.DateTimestamp)
+                .IsRowVersion()
+                .IsConcurrencyToken();
+
+            builder
+                .HasOne(d => d.Patient)
+                .WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PatientId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Patients");
         }
     }
 }

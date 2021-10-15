@@ -9,8 +9,15 @@ namespace DataAccess.EFCore.EntityConfiguration
         public void Configure(EntityTypeBuilder<Service> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .HasKey(e => e.Id)
+                .HasName("Code");
 
+            builder
+                .Property(e => e.ServiceName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Service");
         }
     }
 }

@@ -9,12 +9,31 @@ namespace DataAccess.EFCore.EntityConfiguration
         public void Configure(EntityTypeBuilder<Insurance> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .ToTable(nameof(Insurance));
 
             builder
-                .HasOne(p => p.Patient)
-                .WithOne(p => p.Insurance)
-                .HasForeignKey<Insurance>(p => p.Id);
+                .Property(e => e.Address)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            builder
+                .Property(e => e.Bik)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("BIK");
+
+            builder.Property(e => e.Inn)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("INN");
+
+            builder.Property(e => e.Name)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            builder.Property(e => e.P)
+                .HasMaxLength(10)
+                .IsUnicode(false);
         }
     }
 }

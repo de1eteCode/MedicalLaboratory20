@@ -9,12 +9,17 @@ namespace DataAccess.EFCore.EntityConfiguration
         public void Configure(EntityTypeBuilder<Safety> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .ToTable("Safety");
 
             builder
-                .HasOne(p => p.Patient)
-                .WithOne(p => p.Safety)
-                .HasForeignKey<Safety>(p => p.Id);
+                .Property(e => e.IpAddress)
+                .HasMaxLength(16)
+                .IsUnicode(false);
+
+            builder
+                .Property(e => e.UA)
+                .HasColumnType("text")
+                .HasColumnName("UA");
         }
     }
 }
