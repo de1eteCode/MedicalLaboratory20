@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "localhost": "Data Source=localhost;Initial Catalog=WSBD;Integrated Security=True",
+    "localhost": "Data Source=localhost;Initial Catalog=WorldSkillsBD;Integrated Security=True",
     "pk": "Data Source=PK452-11\\SQLEXPRESS;Initial Catalog=WorldSkillsBD;Integrated Security=True"
   }
 }

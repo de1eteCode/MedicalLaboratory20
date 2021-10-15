@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,6 @@ namespace MedicalLaboratory20.WebAPI
             Configuration = config;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
@@ -39,7 +38,7 @@ namespace MedicalLaboratory20.WebAPI
             {
                 option.UseLazyLoadingProxies();
 
-                option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
+                option.UseSqlServer(Configuration["ConnectionStrings:localhost"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
                 });
@@ -67,6 +66,14 @@ namespace MedicalLaboratory20.WebAPI
                 // Отключает рекурсию в json ссылках
                 opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
             });
+
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -74,6 +81,13 @@ namespace MedicalLaboratory20.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                });
             }
 
             app.UseRouting();
