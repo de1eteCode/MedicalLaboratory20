@@ -14,6 +14,8 @@ namespace DataModels.Interfaces
         IServiceRepository Services { get; }
         ISocialRepository Socials { get; }
         IUserRepository Users { get; }
+        IUserServiceRepository UserServices { get; }
+        IRoleRepository Roles { get; }
 
         int Complete();
         Task<int> CompleteAsync();

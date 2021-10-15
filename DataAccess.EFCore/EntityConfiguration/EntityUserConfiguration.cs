@@ -29,10 +29,18 @@ namespace DataAccess.EFCore.EntityConfiguration
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            builder.Property(e => e.Password)
+            builder
+                .Property(e => e.Password)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            builder
+                .HasOne(d => d.Role)
+                .WithMany()
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_Roles");
         }
     }
 }

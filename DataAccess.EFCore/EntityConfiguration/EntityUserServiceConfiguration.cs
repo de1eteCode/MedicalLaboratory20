@@ -17,7 +17,7 @@ namespace DataAccess.EFCore.EntityConfiguration
             builder
                 .HasOne(d => d.Service)
                 .WithMany()
-                .HasForeignKey(d => (object)d.CodeService)
+                .HasForeignKey(d => d.CodeService)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User-Services_Services");
 

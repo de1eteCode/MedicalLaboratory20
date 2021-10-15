@@ -11,5 +11,7 @@ namespace DataModels.Entities
         public string Ip { get; set; }
         public DateTime? LastEnter { get; set; }
         public int RoleId { get; set; }
+
+        public virtual Role Role { get; set; }
     }
 }

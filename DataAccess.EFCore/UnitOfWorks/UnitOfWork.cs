@@ -22,6 +22,7 @@ namespace DataAccess.EFCore.UnitOfWorks
             Socials = new SocialRepository(context);
             Users = new UserRepository(context);
             UserServices = new UserServiceRepository(context);
+            Roles = new RoleRepository(context);
         }
 
         public IInsuranceRepository Insurances { get; private set; }
@@ -33,6 +34,7 @@ namespace DataAccess.EFCore.UnitOfWorks
         public ISocialRepository Socials { get; private set; }
         public IUserRepository Users { get; private set; }
         public IUserServiceRepository UserServices { get; private set; }
+        public IRoleRepository Roles { get; private set; }
 
         public int Complete()
         {

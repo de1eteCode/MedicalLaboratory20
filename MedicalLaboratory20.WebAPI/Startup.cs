@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using DataModels.Interfaces;
 using DataAccess.EFCore.Repositories;
 using DataModels.Interfaces.IEntityRepositories;
@@ -36,6 +37,9 @@ namespace MedicalLaboratory20.WebAPI
 
             services.AddDbContext<LaboratoryContext>(option =>
             {
+                option.UseLazyLoadingProxies();
+
+
                 option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
@@ -54,11 +58,15 @@ namespace MedicalLaboratory20.WebAPI
             services.AddTransient<ISocialRepository, SocialRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserServiceRepository, UserServiceRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             #endregion
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿using DataModels.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace MedicalLaboratory20.WebAPI.Controllers
 {
@@ -15,10 +16,24 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             _unit = unitOfWork;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("getuser")]
+        public IActionResult GetUser()
         {
-            return Ok(_unit.Users.GetAll());
+            var user = _unit.Users.GetAll().First();
+            return Ok(user);
+        }
+
+        [HttpGet("getrole")]
+        public IActionResult GetRole()
+        {
+            var role = _unit.Roles.GetAll().First();
+            return Ok(role);
+        }
+
+        [HttpGet("getpatient")]
+        public IActionResult GetPatient()
+        {
+            return Ok(_unit.Patients.GetAll().First());
         }
     }
 }

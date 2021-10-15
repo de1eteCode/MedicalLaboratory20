@@ -23,6 +23,7 @@ namespace DataAccess.EFCore
             modelBuilder.ApplyConfiguration(new EntitySocialConfiguration());
             modelBuilder.ApplyConfiguration(new EntityUserConfiguration());
             modelBuilder.ApplyConfiguration(new EntityUserServiceConfiguration());
+            modelBuilder.ApplyConfiguration(new EntityRoleConfiguration());
         }
 
         public virtual DbSet<Insurance> Insurances { get; set; }
@@ -34,5 +35,6 @@ namespace DataAccess.EFCore
         public virtual DbSet<Social> Socials { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserService> UserServices { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }
