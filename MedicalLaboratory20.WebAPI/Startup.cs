@@ -18,26 +18,26 @@ using DataAccess.EFCore.Repositories;
 using DataModels.Interfaces.IEntityRepositories;
 using DataAccess.EFCore.Repositories.EntityRepositories;
 using DataAccess.EFCore.UnitOfWorks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using MedicalLaboratory20.WebAPI.Helpers;
 
 namespace MedicalLaboratory20.WebAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration config)
         {
             Configuration = config;
         }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
-
+            // EF Core
             services.AddDbContext<LaboratoryContext>(option =>
             {
                 option.UseLazyLoadingProxies();
-
                 option.UseSqlServer(Configuration["ConnectionStrings:localhost"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
@@ -61,12 +61,38 @@ namespace MedicalLaboratory20.WebAPI
 
             #endregion
 
-            services.AddControllers().AddJsonOptions(opt =>
-            {
-                // Отключает рекурсию в json ссылках
-                opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            });
+            services.AddControllers()
+                .AddJsonOptions(opt =>
+                {
+                    // Отключает рекурсию в json ссылках
+                    opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                });
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthorizationOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthorizationOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthorizationOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["accessToken"];
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+            services.AddSignalR();
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -83,7 +109,6 @@ namespace MedicalLaboratory20.WebAPI
                 app.UseDeveloperExceptionPage();
 
                 app.UseSwagger();
-
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("v1/swagger.json", "My API V1");
@@ -91,6 +116,9 @@ namespace MedicalLaboratory20.WebAPI
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

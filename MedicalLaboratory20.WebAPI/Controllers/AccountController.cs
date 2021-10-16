@@ -12,7 +12,6 @@ using System.Collections.Generic;
 namespace MedicalLaboratory20.WebAPI.Controllers
 {
     [Route("auth")]
-    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IUnitOfWork _unit;
