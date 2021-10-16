@@ -43,6 +43,6 @@ namespace MedicalLaboratory20.DesktopApp.Services
         /// <summary>
         /// Возвращает полный адрес сервера
         /// </summary>
-        public string HttpServerAddress => $"https://{ServerIp}:{ServerPort}";
+        public string HttpServerAddress => $"http://{ServerIp}:{ServerPort}";
     }
 }

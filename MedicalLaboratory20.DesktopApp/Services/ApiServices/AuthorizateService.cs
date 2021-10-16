@@ -11,8 +11,8 @@ namespace MedicalLaboratory20.DesktopApp.Services.ApiServices
             var cfg = ConfigurationService.GetInstance();
             IRestRequest request = new RestRequest($"{cfg.HttpServerAddress}/auth/token", Method.POST);
             request.AddHeader("content-type", "application/x-www-form-urlencoded");
-            request.AddHeader("login", login);
-            request.AddHeader("password", password);
+            request.AddParameter("login", login);
+            request.AddParameter("password", password);
 
             var response = _client.Execute(request);
             return response;
