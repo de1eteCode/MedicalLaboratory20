@@ -20,6 +20,7 @@ using DataAccess.EFCore.Repositories.EntityRepositories;
 using DataAccess.EFCore.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using DataModels.Interfaces.IUnitOfWorks;
 using MedicalLaboratory20.WebAPI.Helpers;
 
 namespace MedicalLaboratory20.WebAPI
@@ -57,7 +58,11 @@ namespace MedicalLaboratory20.WebAPI
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserServiceRepository, UserServiceRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfAuthUser, UnitOfAuthUser>();
+
+            #if DEBUG
+            services.AddTransient<IUnitRoot, UnitRoot>();
+            #endif
 
             #endregion
 
@@ -68,30 +73,35 @@ namespace MedicalLaboratory20.WebAPI
                     opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
                 });
 
+            #region Auth
+
+            // Настройки
+            var authOptionsRegistr = Configuration.GetSection("Auth");
+            services.Configure<AuthOptions>(authOptionsRegistr);
+
+            // Сама аунтетификация
+            var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = AuthorizationOptions.ISSUER,
-                        ValidateAudience = true,
-                        ValidAudience = AuthorizationOptions.AUDIENCE,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = AuthorizationOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true,
-                    };
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accessToken = context.Request.Query["accessToken"];
+                        ValidIssuer = authOptions.Issuer,
 
-                            return Task.CompletedTask;
-                        }
+                        ValidateAudience = true,
+                        ValidAudience = authOptions.Audience,
+
+                        ValidateLifetime = true,
+
+                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
                     };
                 });
+
+            #endregion
+
             services.AddSignalR();
             services.AddMvc();
 
@@ -122,9 +132,7 @@ namespace MedicalLaboratory20.WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "api/{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

@@ -2,5 +2,11 @@
   "ConnectionStrings": {
     "localhost": "Data Source=localhost;Initial Catalog=WorldSkillsBD;Integrated Security=True",
     "pk": "Data Source=PK452-11\\SQLEXPRESS;Initial Catalog=WorldSkillsBD;Integrated Security=True"
+  },
+  "Auth": {
+    "Issuer": "MedicalLaboratory20Server",
+    "Audience": "MedicalLaboratory20Client",
+    "Secret": "MXI8I74D7DGYO2M916B1ELS96R6LZ0KC",
+    "TokenLifetime": "300" // 5 минут
   }
 }

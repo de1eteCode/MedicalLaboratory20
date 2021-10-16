@@ -5,6 +5,8 @@
 -- https://docs.microsoft.com/ru-ru/aspnet/core/signalr/authn-and-authz?view=aspnetcore-5.0
 -- https://metanit.com/sharp/aspnet5/30.9.php
 
+-- https://www.youtube.com/watch?v=pq-zIs5CFQI
+
 ### Клиент:
 - Подгрузка нужных страниц, в зависимости от роли
 
