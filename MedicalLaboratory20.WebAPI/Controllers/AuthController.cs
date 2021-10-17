@@ -1,10 +1,14 @@
 ﻿using DataModels.Entities;
 using DataModels.Interfaces.IUnitOfWorks;
-using MedicalLaboratory20.WebAPI.Helpers;
-using MedicalLaboratory20.WebAPI.Models;
+using MedicalLaboratory20.WebAPI.JWT;
+using MedicalLaboratory20.WebAPI.Models.Requests;
+using MedicalLaboratory20.WebAPI.Models.Results;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,64 +17,103 @@ using System.Threading.Tasks;
 namespace MedicalLaboratory20.WebAPI.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IOptions<AuthOptions> _authOptions;
         private IUnitOfAuthUser _unitOfAuthUser;
+        private IJwtAuthManager _jwtAuthManager;
 
-        public AuthController(IOptions<AuthOptions> authOptions, IUnitOfAuthUser unitOfAuthUser)
+        public AuthController(IUnitOfAuthUser unitOfAuthUser, IJwtAuthManager jwtAuthManager)
         {
-            _authOptions = authOptions;
             _unitOfAuthUser = unitOfAuthUser;
+            _jwtAuthManager = jwtAuthManager;
         }
 
-        [Route("token")]
-        [HttpPost]
-        public async Task<IActionResult> Token([FromBody] Account accRequest)
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            var user = await AuthenticationUser(accRequest.Login, accRequest.Password);
-
-            if (user is not null)
+            if (ModelState.IsValid is false)
             {
-                var accessToken = GenerateJWT(user);
-                return Ok(new 
-                { 
-                    accessToken = accessToken,
-                    username = user.Name,
-                    role = user.Role.Name
-                });
+                return BadRequest();
             }
 
-            return Unauthorized();
-        }
+            var user = _unitOfAuthUser.Users.GetUser(loginRequest.Login, loginRequest.Password);
 
-        private async Task<User> AuthenticationUser(string login, string password)
-        {
-            return await _unitOfAuthUser.Users.GetUserAsync(login, password);
-        }
-
-        private string GenerateJWT(User user)
-        {
-            var authParams = _authOptions.Value;
-
-            var secretKey = authParams.GetSymmetricSecurityKey();
-            var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>()
+            if (user is null)
             {
-                new Claim("name", user.Name),
-                new Claim("role", user.Role.Name)
+                return Unauthorized();
+            }
+
+            var claims = new[]
+            {
+                new Claim("Login", user.Login),
+                new Claim("Name", user.Name),
+                new Claim("Role", user.Role.Name)
             };
 
-            var accessToken = new JwtSecurityToken(
-                authParams.Issuer,
-                authParams.Audience,
-                claims,
-                expires: System.DateTime.Now.AddSeconds(authParams.TokenLifetime),
-                signingCredentials: credentials);
+            var jwtResult = _jwtAuthManager.GenerateTokens(user.Login, claims, DateTime.Now);
 
-            return new JwtSecurityTokenHandler().WriteToken(accessToken);
+            return Ok(new LoginResult()
+            {
+                Login = user.Login,
+                Name = user.Name,
+                Role = user.Role.Name,
+                AccessToken = jwtResult.AccessToken,
+                RefreshToken = jwtResult.RefreshToken.Token
+            });
+        }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var login = User.FindFirst("Login")?.Value;
+            _jwtAuthManager.RemoveRefreshTokenByLogin(login);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                var login = User.FindFirst("Login")?.Value;
+
+                if (string.IsNullOrEmpty(login))
+                {
+                    return Unauthorized();
+                }
+
+                var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+                var jwtResult = _jwtAuthManager.Refresh(request.RefreshToken, accessToken, DateTime.Now);
+
+                return Ok(new LoginResult()
+                {
+                    Login = login,
+                    Role = User.FindFirst("Role")?.Value ?? string.Empty,
+                    AccessToken = jwtResult.AccessToken,
+                    RefreshToken = jwtResult.RefreshToken.Token
+                });
+            }
+            catch (SecurityTokenException e)
+            {
+                return Unauthorized(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("user")]
+        public IActionResult GetCurrentUser()
+        {
+            return Ok(new LoginResult()
+            {
+                Login = User.FindFirst("Login")?.Value,
+                Role = User.FindFirst("Role")?.Value,
+                Name = User.FindFirst("Name").Value
+            });
         }
     }
 }

@@ -21,7 +21,9 @@ using DataAccess.EFCore.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DataModels.Interfaces.IUnitOfWorks;
-using MedicalLaboratory20.WebAPI.Helpers;
+using MedicalLaboratory20.WebAPI.JWT;
+using System.Text;
+using MedicalLaboratory20.WebAPI.Models;
 
 namespace MedicalLaboratory20.WebAPI
 {
@@ -62,7 +64,37 @@ namespace MedicalLaboratory20.WebAPI
 
             #if DEBUG
             services.AddTransient<IUnitRoot, UnitRoot>();
-            #endif
+#endif
+
+            #endregion
+            #region Auth
+
+            var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
+            services.AddSingleton(jwtTokenConfig);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtTokenConfig.Issuer,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtTokenConfig.Secret)),
+                    ValidateAudience = true,
+                    ValidAudience = jwtTokenConfig.Audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+            });
+
+            services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
+            services.AddHostedService<JwtRefreshTokenCache>();
 
             #endregion
 
@@ -72,35 +104,6 @@ namespace MedicalLaboratory20.WebAPI
                     // Отключает рекурсию в json ссылках
                     opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
                 });
-
-            #region Auth
-
-            // Настройки
-            var authOptionsRegistr = Configuration.GetSection("Auth");
-            services.Configure<AuthOptions>(authOptionsRegistr);
-
-            // Сама аунтетификация
-            var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = authOptions.Issuer,
-
-                        ValidateAudience = true,
-                        ValidAudience = authOptions.Audience,
-
-                        ValidateLifetime = true,
-
-                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true
-                    };
-                });
-
-            #endregion
 
             services.AddSignalR();
             services.AddMvc();

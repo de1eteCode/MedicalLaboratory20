@@ -6,6 +6,7 @@
 -- https://metanit.com/sharp/aspnet5/30.9.php
 
 -- https://www.youtube.com/watch?v=pq-zIs5CFQI
+-- О JWT - https://andrey.moveax.ru/post/asp-net-core-web-api-authentication-part-4-refresh-token-description
 
 ### Клиент:
 - Подгрузка нужных страниц, в зависимости от роли

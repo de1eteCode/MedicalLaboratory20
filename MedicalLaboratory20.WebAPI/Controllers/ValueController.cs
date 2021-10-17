@@ -1,4 +1,5 @@
 ﻿using DataModels.Interfaces.IUnitOfWorks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -17,10 +18,18 @@ namespace MedicalLaboratory20.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getuser")]
         public IActionResult GetUser()
         {
             return Ok(_unitRoot.Users.GetAll().First());
+        }
+
+        [HttpGet]
+        [Route("getpatient")]
+        public IActionResult GetPatient()
+        {
+            return Ok(_unitRoot.Patients.GetAll().First());
         }
     }
 #endif

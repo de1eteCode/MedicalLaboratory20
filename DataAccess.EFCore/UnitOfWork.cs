@@ -1,6 +1,4 @@
-﻿using DataAccess.EFCore.Repositories.EntityRepositories;
-using DataModels.Interfaces;
-using DataModels.Interfaces.IEntityRepositories;
+﻿using DataModels.Interfaces;
 using System.Threading.Tasks;
 
 namespace DataAccess.EFCore
