@@ -11,10 +11,6 @@
         Height="400"
         Width="800">
 
-    <Window.DataContext>
-        <vmWin:WindowPresentorVM/>
-    </Window.DataContext>
-
     <DockPanel>
         <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0,0,1,0" Width="100">
             <ItemsControl ItemsSource="{Binding PageVMs}" Height="384" VerticalAlignment="Bottom">

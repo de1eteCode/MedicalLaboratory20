@@ -6,15 +6,40 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:MedicalLaboratory20.DesktopApp.View.Window"
     xmlns:vmWin="clr-namespace:MedicalLaboratory20.DesktopApp.ViewModel.Window"
+    xmlns:models="clr-namespace:MedicalLaboratory20.DesktopApp.Model.POCO"
     mc:Ignorable="d"
     ResizeMode="CanMinimize"
     Title="Login"
     Height="450"
     Width="320">
 
-    <Window.DataContext>
-        <vmWin:LoginVM/>
-    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="CaptchaStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="TextDecorations" Value="Strikethrough"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding NeedCaptcha}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NeedCaptcha}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="CaptchaBox" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding NeedCaptcha}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding NeedCaptcha}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -24,7 +49,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2.3*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
@@ -33,19 +58,28 @@
             Grid.Row="1">
             <TextBlock 
                 HorizontalAlignment="Center"
-                Margin="0,12,0,40"
+                Margin="0,12,0,10"
                 FontSize="24"
                 Text="Авторизация"/>
             <TextBox
                 HorizontalAlignment="Stretch"
                 Margin="10,12,10,6"
                 FontSize="16"
-                Text="Login"/>
+                Text="{Binding LoginModel.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox
                 HorizontalAlignment="Stretch"
                 Margin="10,12,10,6"
                 FontSize="16"
-                Text="Login"/>
+                Text="{Binding LoginModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock
+                Style="{StaticResource CaptchaStyle}"
+                HorizontalAlignment="Center"
+                Text="{Binding CaptchaText, Mode=OneWay}"/>
+            <TextBox
+                Style="{StaticResource CaptchaBox}"
+                Text="{Binding CaptchaInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Stretch"
+                Margin="10,0"/>
             <Button 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
@@ -53,7 +87,8 @@
                 Margin="10"
                 Content="Войти"
                 Width="70"
-                Command="{Binding LoginCommand}"/>
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding LoginModel}"/>
         </StackPanel>
 
     </Grid>

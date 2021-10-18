@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.Services.ApiServices
 {
@@ -6,13 +7,13 @@ namespace MedicalLaboratory20.DesktopApp.Services.ApiServices
     {
         public AuthorizateService(IRestClient client) : base(client) { }
 
-        public IRestResponse Authorizate(string login, string password)
+        public async Task<IRestResponse> Authorizate(string login, string password)
         {
             var cfg = ConfigurationService.GetInstance();
             IRestRequest request = new RestRequest($"{cfg.HttpServerAddress}/auth/login", Method.POST, DataFormat.Json)
                 .AddJsonBody(new { login, password });
 
-            var response = _client.Execute(request);
+            var response = await _client.ExecuteAsync(request);
             return response;
         }
     }
