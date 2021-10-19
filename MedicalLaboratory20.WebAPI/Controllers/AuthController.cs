@@ -24,7 +24,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
         private readonly IUnitOfAuthUser _unitOfAuthUser;
         private readonly IJwtAuthManager _jwtAuthManager;
 
-        private List<LogingAuth> _logLogIn = new(); 
+        private readonly List<LogingAuth> _logLogIn = new(); 
 
         public AuthController(IUnitOfAuthUser unitOfAuthUser, IJwtAuthManager jwtAuthManager)
         {
@@ -45,7 +45,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
 
             if (user is null)
             {
-                _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Не успешно"});
+                _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Не успешно", Description = "Неверный логин/пароль"});
                 return Unauthorized();
             }
 
@@ -62,7 +62,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             user.LastEnter = DateTime.UtcNow.AddHours(_gmt);
             _unitOfAuthUser.Complete();
 
-            _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Успешно" });
+            _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Успешно", Description = "-" });
 
             return Ok(new LoginResult()
             {

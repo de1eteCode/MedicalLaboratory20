@@ -1,6 +1,5 @@
-﻿using MedicalLaboratory20.DesktopApp.Core.Abstract;
-using MedicalLaboratory20.DesktopApp.Models;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using MedicalLaboratory20.DesktopApp.Models;
+using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
 using SharedModels;
 using System;
 using System.Collections.Generic;
@@ -11,21 +10,22 @@ using System.Windows.Controls;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    class InfoVM : ObservableObject, IPageVM
+    class InfoVM : PageVMBase
     {
-        private readonly LoginResult _user;
+        private LoginResult _user;
 
-        public InfoVM()
-        {
-            _user = Client.GetInstance().User;
-            SplitNameFromUserData();
-        }
-
-        public string Title => "Информация";
+        public override string Title => "Информация";
         public string FirstName { get; private set; }
         public string SecondName { get; private set; }
         public string Role => _user.Role;
         public string AvatarUri => @"~\..\..\..\Resource\" + GetUri();
+
+        public override void OnLoad()
+        {
+            base.OnLoad();
+            _user = Client.GetInstance().User;
+            SplitNameFromUserData();
+        }
 
         private string GetUri() =>
             _user.RoleId switch

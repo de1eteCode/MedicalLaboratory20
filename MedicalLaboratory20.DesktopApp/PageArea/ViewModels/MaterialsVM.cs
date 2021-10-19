@@ -1,4 +1,4 @@
-﻿using MedicalLaboratory20.DesktopApp.Core.Abstract;
+﻿using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    internal class MaterialsVM : IPageVM
+    internal class MaterialsVM : PageVMBase
     {
-        public string Title => "Материалы";
+        public override string Title => "Материалы";
     }
 }

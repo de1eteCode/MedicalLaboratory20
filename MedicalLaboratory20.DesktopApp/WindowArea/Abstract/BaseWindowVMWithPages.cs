@@ -4,8 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using MedicalLaboratory20.DesktopApp.Core;
-using MedicalLaboratory20.DesktopApp.Core.Abstract;
+using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
 {
@@ -18,11 +19,11 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
         {
             _pageController = new PageController();
 
-            ChangePageCommand = new RelayCommand<IPageVM>(SwitchPage);
+            ChangePageCommand = new RelayCommand<PageVMBase>(SwitchPage);
             ClosePageCommand = new RelayCommand(ClosePage);
         }
 
-        public IEnumerable<IPageVM> Pages => _pageController.Pages;
+        public IEnumerable<PageVMBase> Pages => _pageController.Pages;
 
         public Page CurrentPage
         {
@@ -45,28 +46,32 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
         #endregion
 
         protected void RegisterPageWithVm<VM, Pag>()
-            where VM : IPageVM
+            where VM : PageVMBase
             where Pag : Page
         {
             _pageController.RegisterVMAndPage<VM, Pag>();
 
             if (CurrentPage is null)
             {
-                SwitchPage((IPageVM)_pageController.GetFirstPage().DataContext);
+                SwitchPage((PageVMBase)_pageController.GetFirstPage().DataContext);
             }
         }
 
-        private void SwitchPage(IPageVM vm)
+        private void SwitchPage(PageVMBase vm)
         {
             if (vm != CurrentPage?.DataContext)
             {
+                if (vm.IsLoaded is false)
+                {
+                    Task.Run(() => vm.OnLoad());
+                }
                 CurrentPage = _pageController.GetPage(vm);
             }
         }
 
         private void ClosePage()
         {
-            IPageVM vmForClose = (IPageVM)_currentPage.DataContext;
+            PageVMBase vmForClose = (PageVMBase)_currentPage.DataContext;
             CurrentPage = _pageController.GetLastPage();
             _pageController.HidePage(vmForClose);
         }

@@ -13,5 +13,18 @@ namespace SharedModels
 
         [JsonPropertyName("result")]
         public string Result { get; set; }
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        [JsonIgnore]
+        public object this[string propertyName]
+        {
+            get
+            {
+                var propertyInfo = this.GetType().GetProperty(propertyName);
+                return propertyInfo.GetValue(this, null);
+            }
+        }
     }
 }

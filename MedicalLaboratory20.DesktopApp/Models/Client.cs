@@ -46,6 +46,7 @@ namespace MedicalLaboratory20.DesktopApp.Models
 
         public event Action<string> Error;
 
+        public RestClient RestClient => _restClient;
         public LoginResult User { get; private set; }
         
         public async Task<bool> Auth(string login, string password)
