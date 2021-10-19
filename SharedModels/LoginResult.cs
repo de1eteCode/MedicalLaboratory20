@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MedicalLaboratory20.DesktopApp.Models.POCO
+namespace SharedModels
 {
-    internal class User
+    public class LoginResult
     {
         [JsonPropertyName("login")]
         public string Login { get; set; }

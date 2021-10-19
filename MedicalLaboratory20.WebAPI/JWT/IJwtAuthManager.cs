@@ -1,5 +1,4 @@
-﻿using MedicalLaboratory20.WebAPI.Models;
-using MedicalLaboratory20.WebAPI.Models.Results;
+﻿using SharedModels;
 using System;
 using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;

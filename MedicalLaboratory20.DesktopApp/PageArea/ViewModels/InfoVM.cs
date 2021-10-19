@@ -1,7 +1,7 @@
 ﻿using MedicalLaboratory20.DesktopApp.Core.Abstract;
 using MedicalLaboratory20.DesktopApp.Models;
-using MedicalLaboratory20.DesktopApp.Models.POCO;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using SharedModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
     class InfoVM : ObservableObject, IPageVM
     {
-        private readonly User _user;
+        private readonly LoginResult _user;
 
         public InfoVM()
         {

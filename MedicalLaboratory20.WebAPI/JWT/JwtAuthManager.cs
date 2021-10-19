@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using MedicalLaboratory20.WebAPI.Models;
-using MedicalLaboratory20.WebAPI.Models.Results;
+using SharedModels;
 
 namespace MedicalLaboratory20.WebAPI.JWT
 {

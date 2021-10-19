@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MedicalLaboratory20.WebAPI.Models.Requests
+namespace SharedModels
 {
     public class RefreshTokenRequest
     {

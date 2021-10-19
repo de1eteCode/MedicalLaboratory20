@@ -1,13 +1,12 @@
 ﻿using DataModels.Entities;
 using DataModels.Interfaces.IUnitOfWorks;
 using MedicalLaboratory20.WebAPI.JWT;
-using MedicalLaboratory20.WebAPI.Models.Requests;
-using MedicalLaboratory20.WebAPI.Models.Results;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SharedModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,9 +20,11 @@ namespace MedicalLaboratory20.WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private int _gmt = 5; // Часовой пояс
-        private IUnitOfAuthUser _unitOfAuthUser;
-        private IJwtAuthManager _jwtAuthManager;
+        private readonly int _gmt = 5; // Часовой пояс
+        private readonly IUnitOfAuthUser _unitOfAuthUser;
+        private readonly IJwtAuthManager _jwtAuthManager;
+
+        private List<LogingAuth> _logLogIn = new(); 
 
         public AuthController(IUnitOfAuthUser unitOfAuthUser, IJwtAuthManager jwtAuthManager)
         {
@@ -44,6 +45,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
 
             if (user is null)
             {
+                _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Не успешно"});
                 return Unauthorized();
             }
 
@@ -59,6 +61,8 @@ namespace MedicalLaboratory20.WebAPI.Controllers
 
             user.LastEnter = DateTime.UtcNow.AddHours(_gmt);
             _unitOfAuthUser.Complete();
+
+            _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Успешно" });
 
             return Ok(new LoginResult()
             {
@@ -121,6 +125,13 @@ namespace MedicalLaboratory20.WebAPI.Controllers
                 RoleId = User.FindFirst("RoleId")?.Value,
                 Name = User.FindFirst("Name").Value
             });
+        }
+
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("log")]
+        public IActionResult GetLog()
+        {
+            return Ok(_logLogIn);
         }
     }
 }

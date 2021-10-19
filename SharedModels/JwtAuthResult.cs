@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MedicalLaboratory20.WebAPI.Models.Results
+namespace SharedModels
 {
     public class JwtAuthResult
     {

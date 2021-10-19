@@ -1,7 +1,7 @@
 ﻿using MedicalLaboratory20.DesktopApp.Models;
-using MedicalLaboratory20.DesktopApp.Models.POCO;
 using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using Microsoft.Toolkit.Mvvm.Input;
+using SharedModels;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,7 +23,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 
             #region cmd
 
-            LoginCommand = new AsyncRelayCommand<LoginModel>(ExecuteLoginCommand);
+            LoginCommand = new AsyncRelayCommand<LoginRequest>(ExecuteLoginCommand);
 
             #endregion
         }
@@ -68,7 +68,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 
         public string CaptchaInput { get; set; } = String.Empty;
 
-        public LoginModel LoginModel { get; set; } = new();
+        public LoginRequest LoginModel { get; set; } = new();
 
         public bool IsUnblocked { get; set; } = true;
 
@@ -77,7 +77,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
         public ICommand LoginCommand { get; }
         #endregion
 
-        private async Task ExecuteLoginCommand(LoginModel lModel)
+        private async Task ExecuteLoginCommand(LoginRequest lModel)
         {
             if (NeedCaptcha)
             {

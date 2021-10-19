@@ -12,8 +12,8 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
     class LaborantVM : WorkflowVM
     {
-        private TimeSpan _session = new TimeSpan(2, 30, 0);
-        private readonly TimeSpan _removeTime = new TimeSpan(0, 0, -1);
+        private TimeSpan _session = new(2, 30, 0);
+        private readonly TimeSpan _removeTime = new(0, 0, -1);
 
         private Timer _timer;
 

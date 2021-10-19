@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace MedicalLaboratory20.WebAPI.Models
+namespace SharedModels
 {
     public class RefreshToken
     {

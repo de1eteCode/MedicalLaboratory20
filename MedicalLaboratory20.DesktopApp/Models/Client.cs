@@ -1,5 +1,4 @@
 ﻿using MedicalLaboratory20.DesktopApp.Services;
-using MedicalLaboratory20.DesktopApp.Models.POCO;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using MedicalLaboratory20.DesktopApp.Services.ApiServices;
 using System.Net;
 using System.Text.Json;
+using SharedModels;
 
 namespace MedicalLaboratory20.DesktopApp.Models
 {
@@ -17,20 +17,20 @@ namespace MedicalLaboratory20.DesktopApp.Models
         #region Singleton
 
         private static readonly object _syncObj = new();
-        private static Client _authorization;
+        private static Client _client;
         public static Client GetInstance()
         {
-            if (_authorization is null)
+            if (_client is null)
             {
                 lock (_syncObj)
                 {
-                    if (_authorization is null)
+                    if (_client is null)
                     {
-                        _authorization = new Client();
+                        _client = new Client();
                     }
                 }
             }
-            return _authorization;
+            return _client;
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace MedicalLaboratory20.DesktopApp.Models
 
         public event Action<string> Error;
 
-        public User User { get; private set; }
+        public LoginResult User { get; private set; }
         
         public async Task<bool> Auth(string login, string password)
         {
@@ -54,7 +54,7 @@ namespace MedicalLaboratory20.DesktopApp.Models
             var authResponse = await authService.Authorizate(login, password);
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {
-                User = JsonSerializer.Deserialize<User>(authResponse.Content);
+                User = JsonSerializer.Deserialize<LoginResult>(authResponse.Content);
                 return true;
             }
             else if (authResponse.StatusCode == HttpStatusCode.BadRequest ||
