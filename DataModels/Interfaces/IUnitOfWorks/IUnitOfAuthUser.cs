@@ -3,7 +3,7 @@ using System;
 
 namespace DataModels.Interfaces.IUnitOfWorks
 {
-    public interface IUnitOfAuthUser : IDisposable
+    public interface IUnitOfAuthUser : IUnitOfWork, IDisposable
     {
         IUserRepository Users { get; }
     }
