@@ -3,6 +3,7 @@ using MedicalLaboratory20.DesktopApp.Models.POCO;
 using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -28,25 +29,33 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
             #endregion
         }
 
+        #region Properties
         private int TryLogIn
         {
             get => _tryLogIn;
             set
             {
                 _tryLogIn = value;
+                if (value > 1)
+                {
+                    Blocker();
+                }
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NeedCaptcha));
                 OnPropertyChanged(nameof(CaptchaText));
             }
         }
+
         public bool IsLogIn => _authorization.IsLogin;
+
         public bool NeedCaptcha
         {
             get
             {
-                return TryLogIn > 1;
+                return TryLogIn > 0;
             }
         }
+
         public string CaptchaText
         {
             get
@@ -59,12 +68,17 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                 return string.Empty;
             }
         }
+
         public string CaptchaInput { get; set; } = String.Empty;
 
         public LoginModel LoginModel { get; set; } = new();
 
-        public ICommand LoginCommand { get; }
+        public bool IsUnblocked { get; set; } = true;
 
+        #endregion
+        #region Commands
+        public ICommand LoginCommand { get; }
+        #endregion
 
         private async Task ExecuteLoginCommand(LoginModel lModel)
         {
@@ -75,6 +89,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                     ShowMsgForUser("Неверная капча");
                     OnPropertyChanged(nameof(CaptchaText));
                     CaptchaInput = String.Empty;
+                    TryLogIn++;
                     return;
                 }
             }
@@ -90,9 +105,21 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
             }
         }
 
+        private async Task Blocker()
+        {
+            IsUnblocked = false;
+            OnPropertyChanged(nameof(IsUnblocked));
+            await Task.Delay(10000);
+            IsUnblocked = true;
+            OnPropertyChanged(nameof(IsUnblocked));
+        }
+
         private void ShowMsgForUser(string text)
         {
-            System.Windows.MessageBox.Show(text, "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            Task.Run(() =>
+            {
+                System.Windows.MessageBox.Show(text, "Ошибка", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            });
         }
     }
 }

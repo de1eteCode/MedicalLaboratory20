@@ -81,6 +81,7 @@
                 Margin="10"
                 Content="Войти"
                 Width="70"
+                IsEnabled="{Binding IsUnblocked}"
                 Command="{Binding LoginCommand}"
                 CommandParameter="{Binding LoginModel}"/>
         </StackPanel>
