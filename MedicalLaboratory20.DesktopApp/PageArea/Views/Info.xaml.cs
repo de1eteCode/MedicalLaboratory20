@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MedicalLaboratory20.DesktopApp.View.Page
+namespace MedicalLaboratory20.DesktopApp.PageArea.Views
 {
     /// <summary>
-    /// Логика взаимодействия для InfoShow.xaml
+    /// Логика взаимодействия для Info.xaml
     /// </summary>
-    public partial class InfoShow : System.Windows.Controls.Page
+    public partial class Info : Page
     {
-        public InfoShow()
+        public Info()
         {
             InitializeComponent();
         }

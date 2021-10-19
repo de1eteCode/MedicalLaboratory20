@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MedicalLaboratory20.DesktopApp.View.Window
+namespace MedicalLaboratory20.DesktopApp.WindowArea.Views
 {
     /// <summary>
-    /// Логика взаимодействия для PresentorWindow.xaml
+    /// Логика взаимодействия для Login.xaml
     /// </summary>
-    public partial class PresentorWindow : System.Windows.Window
+    public partial class Login : Window
     {
-        public PresentorWindow()
+        public Login()
         {
             InitializeComponent();
         }

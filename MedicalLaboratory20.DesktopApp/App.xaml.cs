@@ -1,6 +1,6 @@
 ﻿using MedicalLaboratory20.DesktopApp.Core;
-using MedicalLaboratory20.DesktopApp.View.Window;
-using MedicalLaboratory20.DesktopApp.ViewModel.Window;
+using MedicalLaboratory20.DesktopApp.WindowArea.ViewModels;
+using MedicalLaboratory20.DesktopApp.WindowArea.Views;
 using System.Windows;
 
 namespace MedicalLaboratory20.DesktopApp
@@ -10,18 +10,18 @@ namespace MedicalLaboratory20.DesktopApp
     /// </summary>
     public partial class App : Application
     {
+        public WindowController WinController = new WindowController();
+
         public App()
         {
-            var inst = WindowManager.GetInstance();
-            inst.RegisterWindow<LoginVM, LoginWindow>();
-            inst.RegisterWindow<WindowPresentorVM, PresentorWindow>();
+            WinController.RegisterVMAndWindow<LoginVM, Login>();
+            WinController.RegisterVMAndWindow<WorkflowVM, Workflow>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var inst = WindowManager.GetInstance();
-            inst.ShowWindow(new LoginVM());
+            WinController.ShowWindow(new LoginVM());
         }
     }
 }

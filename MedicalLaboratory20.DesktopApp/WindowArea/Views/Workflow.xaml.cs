@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MedicalLaboratory20.DesktopApp.View.Window
+namespace MedicalLaboratory20.DesktopApp.WindowArea.Views
 {
     /// <summary>
-    /// Логика взаимодействия для LoginWindow.xaml
+    /// Логика взаимодействия для Workflow.xaml
     /// </summary>
-    public partial class LoginWindow : System.Windows.Window
+    public partial class Workflow : Window
     {
-        public LoginWindow()
+        public Workflow()
         {
             InitializeComponent();
         }

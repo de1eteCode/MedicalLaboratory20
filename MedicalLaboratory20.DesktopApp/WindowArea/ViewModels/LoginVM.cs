@@ -1,18 +1,14 @@
 ﻿using MedicalLaboratory20.DesktopApp.Model;
-using MedicalLaboratory20.DesktopApp.Model.POCO;
-using MedicalLaboratory20.DesktopApp.ViewModel.Abstract;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using MedicalLaboratory20.DesktopApp.Models.POCO;
+using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MedicalLaboratory20.DesktopApp.ViewModel.Window
+namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
-    class LoginVM : ObservableObject, IWinVM
+    class LoginVM : BaseWindowVM
     {
         private Authorization _authorization;
         private int _tryLogIn = 0;
@@ -67,7 +63,7 @@ namespace MedicalLaboratory20.DesktopApp.ViewModel.Window
 
         public LoginModel LoginModel { get; set; } = new();
 
-        public IRelayCommand<LoginModel> LoginCommand { get; }
+        public ICommand LoginCommand { get; }
 
 
         private async Task ExecuteLoginCommand(LoginModel lModel)
@@ -86,9 +82,7 @@ namespace MedicalLaboratory20.DesktopApp.ViewModel.Window
             bool result = await _authorization.Auth(lModel.Login, lModel.Password);
             if (result)
             {
-                var inst = Core.WindowManager.GetInstance();
-                inst.ShowWindow(new WindowPresentorVM());
-                inst.HideWindow(this);
+                OpenNewWindowAndCloseOld();
             }
             else
             {

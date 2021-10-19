@@ -1,17 +1,11 @@
-﻿<Window 
-    x:Class="MedicalLaboratory20.DesktopApp.View.Window.LoginWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:MedicalLaboratory20.DesktopApp.View.Window"
-    xmlns:vmWin="clr-namespace:MedicalLaboratory20.DesktopApp.ViewModel.Window"
-    xmlns:models="clr-namespace:MedicalLaboratory20.DesktopApp.Model.POCO"
-    mc:Ignorable="d"
-    ResizeMode="CanMinimize"
-    Title="Login"
-    Height="450"
-    Width="320">
+﻿<Window x:Class="MedicalLaboratory20.DesktopApp.WindowArea.Views.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MedicalLaboratory20.DesktopApp.WindowArea.Views"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="450" Width="320" ResizeMode="NoResize">
 
     <Window.Resources>
         <Style x:Key="CaptchaStyle" TargetType="{x:Type TextBlock}">
