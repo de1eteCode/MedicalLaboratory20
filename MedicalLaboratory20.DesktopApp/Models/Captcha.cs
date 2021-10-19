@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-namespace MedicalLaboratory20.DesktopApp.Model
+namespace MedicalLaboratory20.DesktopApp.Models
 {
     class Captcha
     {
         private const string CaptchaSymbols = "1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm";
-        private Random _random;
+        private readonly Random _random;
 
         public Captcha()
         {

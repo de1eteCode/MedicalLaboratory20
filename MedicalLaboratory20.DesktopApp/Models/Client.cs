@@ -1,5 +1,5 @@
 ﻿using MedicalLaboratory20.DesktopApp.Services;
-using MedicalLaboratory20.DesktopApp.Model.POCO;
+using MedicalLaboratory20.DesktopApp.Models.POCO;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -10,15 +10,15 @@ using MedicalLaboratory20.DesktopApp.Services.ApiServices;
 using System.Net;
 using System.Text.Json;
 
-namespace MedicalLaboratory20.DesktopApp.Model
+namespace MedicalLaboratory20.DesktopApp.Models
 {
-    class Authorization
+    class Client
     {
         #region Singleton
 
-        private static object _syncObj = new object();
-        private static Authorization _authorization;
-        public static Authorization GetInstance()
+        private static readonly object _syncObj = new();
+        private static Client _authorization;
+        public static Client GetInstance()
         {
             if (_authorization is null)
             {
@@ -26,7 +26,7 @@ namespace MedicalLaboratory20.DesktopApp.Model
                 {
                     if (_authorization is null)
                     {
-                        _authorization = new Authorization();
+                        _authorization = new Client();
                     }
                 }
             }
@@ -35,24 +35,19 @@ namespace MedicalLaboratory20.DesktopApp.Model
 
         #endregion
 
-        private bool _isLogin = false;
-
-        private Authorization()
+        private Client()
         {
             _configurationService = ConfigurationService.GetInstance();
             _restClient = new RestClient(_configurationService.HttpServerAddress);
         }
 
-        private ConfigurationService _configurationService;
-        private RestClient _restClient;
+        private readonly ConfigurationService _configurationService;
+        private readonly RestClient _restClient;
 
-        public event Action SignIn;
-        public event Action SignOut;
         public event Action<string> Error;
 
         public User User { get; private set; }
-        public bool IsLogin => _isLogin;
-
+        
         public async Task<bool> Auth(string login, string password)
         {
             var authService = new AuthorizateService(_restClient);
@@ -60,7 +55,6 @@ namespace MedicalLaboratory20.DesktopApp.Model
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {
                 User = JsonSerializer.Deserialize<User>(authResponse.Content);
-                SignIn?.Invoke();
                 return true;
             }
             else if (authResponse.StatusCode == HttpStatusCode.BadRequest ||

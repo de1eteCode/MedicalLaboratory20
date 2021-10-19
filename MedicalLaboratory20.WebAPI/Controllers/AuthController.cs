@@ -21,6 +21,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private int _gmt = 5; // Часовой пояс
         private IUnitOfAuthUser _unitOfAuthUser;
         private IJwtAuthManager _jwtAuthManager;
 
@@ -55,6 +56,9 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             };
 
             var jwtResult = _jwtAuthManager.GenerateTokens(user.Login, claims, DateTime.Now);
+
+            user.LastEnter = DateTime.UtcNow.AddHours(_gmt);
+            _unitOfAuthUser.Complete();
 
             return Ok(new LoginResult()
             {

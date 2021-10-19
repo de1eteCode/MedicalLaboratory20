@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MedicalLaboratory20.DesktopApp.Model.POCO
+namespace MedicalLaboratory20.DesktopApp.Models.POCO
 {
     internal class User
     {

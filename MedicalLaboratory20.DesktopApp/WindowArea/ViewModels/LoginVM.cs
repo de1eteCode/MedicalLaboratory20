@@ -1,9 +1,8 @@
-﻿using MedicalLaboratory20.DesktopApp.Model;
+﻿using MedicalLaboratory20.DesktopApp.Models;
 using MedicalLaboratory20.DesktopApp.Models.POCO;
 using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,14 +10,14 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
     class LoginVM : BaseWindowVM
     {
-        private Authorization _authorization;
+        private readonly Client _authorization;
         private int _tryLogIn = 0;
-        private Captcha _captcha;
+        private readonly Captcha _captcha;
         private string _currentCaptcha;
 
         public LoginVM()
         {
-            _authorization = Authorization.GetInstance();
+            _authorization = Client.GetInstance();
             _captcha = new Captcha();
             _authorization.Error += ShowMsgForUser;
 
@@ -45,8 +44,6 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                 OnPropertyChanged(nameof(CaptchaText));
             }
         }
-
-        public bool IsLogIn => _authorization.IsLogin;
 
         public bool NeedCaptcha
         {
@@ -82,11 +79,6 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 
         private async Task ExecuteLoginCommand(LoginModel lModel)
         {
-#if DEBUG
-            OpenNewWindowAndCloseOld(new LaborantResearcherVM());
-            return;
-#endif
-
             if (NeedCaptcha)
             {
                 if (CaptchaInput.Equals(_currentCaptcha) is false)
@@ -114,15 +106,12 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                         OpenNewWindowAndCloseOld(new AccountantVM());
                         break;
                     case "4":
-                        throw new InvalidOperationException("Админ форма не реализована");
-                        //OpenNewWindowAndCloseOld(new LaborantVM);
+                        OpenNewWindowAndCloseOld(new AdminVM());
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException("Не найдено значение для роли");
-
                 }
-                
             }
             else
             {

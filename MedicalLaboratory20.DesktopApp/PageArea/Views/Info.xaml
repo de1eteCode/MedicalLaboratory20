@@ -22,20 +22,22 @@
             Grid.Row="0"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" Margin="10"/>
+            VerticalAlignment="Stretch" 
+            Source="{Binding AvatarUri}"
+            Margin="10"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,10">
             <DockPanel>
                 <TextBlock Text="Имя: " FontSize="20"/>
-                <TextBlock Text="" FontSize="20"/>
+                <TextBlock Text="{Binding FirstName}" FontSize="20"/>
             </DockPanel>
             <DockPanel>
                 <TextBlock Text="Фамилия: " FontSize="20"/>
-                <TextBlock Text="" FontSize="20"/>
+                <TextBlock Text="{Binding SecondName}" FontSize="20"/>
             </DockPanel>
             <DockPanel>
                 <TextBlock Text="Должность: " FontSize="20"/>
-                <TextBlock Text="" FontSize="20"/>
+                <TextBlock Text="{Binding Role}" FontSize="20"/>
             </DockPanel>
         </StackPanel>
 

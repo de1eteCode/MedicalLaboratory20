@@ -10,7 +10,7 @@ namespace MedicalLaboratory20.DesktopApp
     /// </summary>
     public partial class App : Application
     {
-        public WindowController WinController = new WindowController();
+        public WindowController WinController = new();
 
         public App()
         {
@@ -18,6 +18,7 @@ namespace MedicalLaboratory20.DesktopApp
             WinController.RegisterVMAndWindow<LaborantVM, Workflow>();
             WinController.RegisterVMAndWindow<LaborantResearcherVM, Workflow>();
             WinController.RegisterVMAndWindow<AccountantVM, Workflow>();
+            WinController.RegisterVMAndWindow<AdminVM, Workflow>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -10,6 +10,10 @@
 
   <ItemGroup>
     <None Remove="config.json" />
+    <None Remove="Resource\acountat.png" />
+    <None Remove="Resource\admin.png" />
+    <None Remove="Resource\laborant_1.png" />
+    <None Remove="Resource\laborant_2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +21,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\acountat.png" />
+    <Resource Include="Resource\admin.png" />
+    <Resource Include="Resource\laborant_1.png" />
+    <Resource Include="Resource\laborant_2.png" />
   </ItemGroup>
 
   <ItemGroup>

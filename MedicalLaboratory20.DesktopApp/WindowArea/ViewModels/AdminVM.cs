@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
-    class AccountantVM : WorkflowVM
+    internal class AdminVM : WorkflowVM
     {
-        public AccountantVM()
+        public AdminVM()
         {
-            RegisterPageWithVm<ReportAccountantVM, ReportAccountant>();
+            RegisterPageWithVm<HistoryLoginVM, HistoryLogin>();
+            RegisterPageWithVm<MaterialsVM, Materials>();
         }
     }
 }

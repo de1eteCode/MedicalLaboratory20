@@ -16,7 +16,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
             _dispatcher = Dispatcher.CurrentDispatcher;
         }
 
-        private ICommand LogOutCommand
+        public ICommand LogOutCommand
         {
             get
             {

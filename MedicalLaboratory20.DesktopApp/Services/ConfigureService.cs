@@ -5,7 +5,7 @@ namespace MedicalLaboratory20.DesktopApp.Services
     internal class ConfigurationService
     {
         #region Singleton
-        private static object _lock = new object();
+        private static readonly object _lock = new();
         private static ConfigurationService? _configurationService;
         public static ConfigurationService GetInstance()
         {
@@ -23,7 +23,7 @@ namespace MedicalLaboratory20.DesktopApp.Services
         }
         #endregion
 
-        private IConfigurationRoot _confRoot;
+        private readonly IConfigurationRoot _confRoot;
 
         private ConfigurationService()
         {

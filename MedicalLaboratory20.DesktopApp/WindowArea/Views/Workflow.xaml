@@ -16,7 +16,7 @@
         <Grid>
             <Border BorderThickness="0" BorderBrush="Black" DockPanel.Dock="Left" Width="120" Margin="0">
                 <Grid>
-                    <ItemsControl Margin="1" ItemsSource="{Binding Pages}">
+                    <ItemsControl Margin="0" ItemsSource="{Binding Pages}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Margin="2,1" Content="{Binding Title}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding }"/>
@@ -24,7 +24,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <TextBlock Text="{Binding TimeToEndSession}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,30"/>
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="2,1" Content="Выход" Command="{Binding DataContext.LogOutCommand}" DockPanel.Dock="Bottom"/>
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="2,1" Content="Выход" Command="{Binding LogOutCommand}" DockPanel.Dock="Bottom"/>
                 </Grid>
             </Border>
             <Line X1="120" Y1="0" X2="120" Y2="{Binding ElementName=_this, Path=Height}" Stroke="Black"/>
