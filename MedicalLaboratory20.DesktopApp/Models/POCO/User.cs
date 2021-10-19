@@ -13,6 +13,9 @@ namespace MedicalLaboratory20.DesktopApp.Model.POCO
         [JsonPropertyName("role")]
         public string Role { get; set; }
 
+        [JsonPropertyName("roleid")]
+        public string RoleId { get; set; }
+
         [JsonPropertyName("accessToken")]
         public string AccessToken { get; set; }
 

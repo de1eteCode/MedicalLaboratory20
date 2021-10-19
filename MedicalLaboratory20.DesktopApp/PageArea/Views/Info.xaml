@@ -8,7 +8,36 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Info">
 
-    <Grid>
-        
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" Margin="10"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,10">
+            <DockPanel>
+                <TextBlock Text="Имя: " FontSize="20"/>
+                <TextBlock Text="" FontSize="20"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="Фамилия: " FontSize="20"/>
+                <TextBlock Text="" FontSize="20"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="Должность: " FontSize="20"/>
+                <TextBlock Text="" FontSize="20"/>
+            </DockPanel>
+        </StackPanel>
+
     </Grid>
 </Page>

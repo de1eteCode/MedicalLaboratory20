@@ -50,7 +50,8 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             {
                 new Claim("Login", user.Login),
                 new Claim("Name", user.Name),
-                new Claim("Role", user.Role.Name)
+                new Claim("Role", user.Role.Name),
+                new Claim("RoleId", user.RoleId.ToString())
             };
 
             var jwtResult = _jwtAuthManager.GenerateTokens(user.Login, claims, DateTime.Now);
@@ -60,6 +61,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
                 Login = user.Login,
                 Name = user.Name,
                 Role = user.Role.Name,
+                RoleId = user.RoleId.ToString(),
                 AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.Token
             });
@@ -112,6 +114,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             {
                 Login = User.FindFirst("Login")?.Value,
                 Role = User.FindFirst("Role")?.Value,
+                RoleId = User.FindFirst("RoleId")?.Value,
                 Name = User.FindFirst("Name").Value
             });
         }

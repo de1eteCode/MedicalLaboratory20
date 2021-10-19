@@ -82,6 +82,11 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 
         private async Task ExecuteLoginCommand(LoginModel lModel)
         {
+#if DEBUG
+            OpenNewWindowAndCloseOld(new LaborantResearcherVM());
+            return;
+#endif
+
             if (NeedCaptcha)
             {
                 if (CaptchaInput.Equals(_currentCaptcha) is false)
@@ -97,7 +102,27 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
             bool result = await _authorization.Auth(lModel.Login, lModel.Password);
             if (result)
             {
-                OpenNewWindowAndCloseOld();
+                switch (_authorization.User.RoleId)
+                {
+                    case "1":
+                        OpenNewWindowAndCloseOld(new LaborantVM());
+                        break;
+                    case "2":
+                        OpenNewWindowAndCloseOld(new LaborantResearcherVM());
+                        break;
+                    case "3":
+                        OpenNewWindowAndCloseOld(new AccountantVM());
+                        break;
+                    case "4":
+                        throw new InvalidOperationException("Админ форма не реализована");
+                        //OpenNewWindowAndCloseOld(new LaborantVM);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException("Не найдено значение для роли");
+
+                }
+                
             }
             else
             {
