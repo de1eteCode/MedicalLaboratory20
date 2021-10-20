@@ -1,25 +1,26 @@
 ﻿using MedicalLaboratory20.DesktopApp.Models;
 using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using Microsoft.Toolkit.Mvvm.Input;
-using SharedModels;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SharedModels;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
     class LoginVM : BaseWindowVM
     {
-        private readonly Client _authorization;
+        private Client _client;
         private int _tryLogIn = 0;
-        private readonly Captcha _captcha;
+        private Captcha _captcha;
         private string _currentCaptcha;
 
         public LoginVM()
         {
-            _authorization = Client.GetInstance();
+            _client = Client.GetInstance();
             _captcha = new Captcha();
-            _authorization.Error += ShowMsgForUser;
+            _client.Error += ShowMsgForUser;
 
             #region cmd
 
@@ -68,7 +69,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 
         public string CaptchaInput { get; set; } = String.Empty;
 
-        public LoginRequest LoginModel { get; set; } = new();
+        public LoginRequest LoginRequest { get; set; } = new();
 
         public bool IsUnblocked { get; set; } = true;
 
@@ -91,10 +92,16 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                 }
             }
 
-            bool result = await _authorization.Auth(lModel.Login, lModel.Password);
+            if (string.IsNullOrEmpty(lModel.Login) || string.IsNullOrEmpty(lModel.Password))
+            {
+                ShowMsgForUser("Не введен логин или пароль");
+                return;
+            }
+
+            bool result = await _client.Auth(lModel.Login, lModel.Password);
             if (result)
             {
-                switch (_authorization.User.RoleId)
+                switch (_client.User.RoleId)
                 {
                     case "1":
                         OpenNewWindowAndCloseOld(new LaborantVM());

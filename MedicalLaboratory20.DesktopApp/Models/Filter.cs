@@ -4,13 +4,13 @@ namespace MedicalLaboratory20.DesktopApp.Models
 {
     internal class Filter
     {
-        public Filter(string name, string property)
+        public Filter(string title, string property)
         {
-            Name = name;
+            Title = title;
             Property = property;
         }
 
-        public string Name {  get; private set; }
+        public string Title {  get; private set; }
         public string Property { get; private set; }
 
         public bool IsEqual(LogingAuth lAuth, string search)
@@ -18,7 +18,7 @@ namespace MedicalLaboratory20.DesktopApp.Models
             var obj = lAuth[Property];
             if (obj is null)
                 return false;
-            return obj.ToString().ToLower().Contains(Property.ToLower());
+            return obj.ToString().ToLower().Contains(search.ToLower());
         }
     }
 }

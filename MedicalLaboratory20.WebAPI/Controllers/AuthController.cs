@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.WebAPI.Controllers
@@ -23,8 +24,6 @@ namespace MedicalLaboratory20.WebAPI.Controllers
         private readonly int _gmt = 5; // Часовой пояс
         private readonly IUnitOfAuthUser _unitOfAuthUser;
         private readonly IJwtAuthManager _jwtAuthManager;
-
-        private readonly List<LogingAuth> _logLogIn = new(); 
 
         public AuthController(IUnitOfAuthUser unitOfAuthUser, IJwtAuthManager jwtAuthManager)
         {
@@ -45,7 +44,8 @@ namespace MedicalLaboratory20.WebAPI.Controllers
 
             if (user is null)
             {
-                _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Не успешно", Description = "Неверный логин/пароль"});
+                _unitOfAuthUser.Auths.Add(new Auth() { Login = loginRequest.Login, Time = DateTime.Now.AddHours(_gmt), Status = "Не успешно", Description = "Неверный логин/пароль"});
+                _unitOfAuthUser.Complete();
                 return Unauthorized();
             }
 
@@ -53,16 +53,15 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             {
                 new Claim("Login", user.Login),
                 new Claim("Name", user.Name),
-                new Claim("Role", user.Role.Name),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name),
                 new Claim("RoleId", user.RoleId.ToString())
             };
 
             var jwtResult = _jwtAuthManager.GenerateTokens(user.Login, claims, DateTime.Now);
 
             user.LastEnter = DateTime.UtcNow.AddHours(_gmt);
+            _unitOfAuthUser.Auths.Add(new Auth() { Login = loginRequest.Login, Time = DateTime.Now.AddHours(_gmt), Status = "Успешно", Description = "-" });
             _unitOfAuthUser.Complete();
-
-            _logLogIn.Add(new LogingAuth() { Login = loginRequest.Login, Date = DateTime.Now.AddHours(_gmt), Result = "Успешно", Description = "-" });
 
             return Ok(new LoginResult()
             {
@@ -103,7 +102,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
                 return Ok(new LoginResult()
                 {
                     Login = login,
-                    Role = User.FindFirst("Role")?.Value ?? string.Empty,
+                    Role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value ?? string.Empty,
                     AccessToken = jwtResult.AccessToken,
                     RefreshToken = jwtResult.RefreshToken.Token
                 });
@@ -121,7 +120,7 @@ namespace MedicalLaboratory20.WebAPI.Controllers
             return Ok(new LoginResult()
             {
                 Login = User.FindFirst("Login")?.Value,
-                Role = User.FindFirst("Role")?.Value,
+                Role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value,
                 RoleId = User.FindFirst("RoleId")?.Value,
                 Name = User.FindFirst("Name").Value
             });
@@ -129,9 +128,9 @@ namespace MedicalLaboratory20.WebAPI.Controllers
 
         [Authorize(Roles = "Администратор")]
         [HttpGet("log")]
-        public IActionResult GetLog()
+        public ActionResult GetLog()
         {
-            return Ok(_logLogIn);
+            return Ok(_unitOfAuthUser.Auths.GetAll());
         }
     }
 }

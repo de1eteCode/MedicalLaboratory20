@@ -18,11 +18,10 @@ namespace MedicalLaboratory20.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("getuser")]
         public IActionResult GetUser()
         {
-            return Ok(_unitRoot.Users.GetAll().First());
+            return Ok(_unitRoot.Users.GetAll());
         }
 
         [HttpGet]

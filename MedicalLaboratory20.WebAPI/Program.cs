@@ -24,6 +24,7 @@ namespace MedicalLaboratory20.WebAPI
                     webBuilder.ConfigureKestrel(serverOptions =>
                     {
                         serverOptions.ConfigureHttpsDefaults(opt => opt.ClientCertificateMode = Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode.NoCertificate);
+                        //serverOptions.Listen(new System.Net.IPAddress(new byte[] { 172, 20, 1, 198 }), port:5004);
                     });
                 });
     }

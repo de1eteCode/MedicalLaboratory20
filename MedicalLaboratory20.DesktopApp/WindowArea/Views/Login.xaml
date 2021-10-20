@@ -59,12 +59,12 @@
                 HorizontalAlignment="Stretch"
                 Margin="10,12,10,6"
                 FontSize="16"
-                Text="{Binding LoginModel.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding LoginRequest.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox
                 HorizontalAlignment="Stretch"
                 Margin="10,12,10,6"
                 FontSize="16"
-                Text="{Binding LoginModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding LoginRequest.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock
                 Style="{StaticResource CaptchaStyle}"
                 HorizontalAlignment="Center"
@@ -83,7 +83,7 @@
                 Width="70"
                 IsEnabled="{Binding IsUnblocked}"
                 Command="{Binding LoginCommand}"
-                CommandParameter="{Binding LoginModel}"/>
+                CommandParameter="{Binding LoginRequest}"/>
         </StackPanel>
 
     </Grid>

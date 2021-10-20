@@ -11,8 +11,8 @@ namespace SharedModels
         [JsonPropertyName("time")]
         public DateTime Date { get; set; }
 
-        [JsonPropertyName("result")]
-        public string Result { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
 
         [JsonPropertyName("description")]
         public string Description { get; set; }

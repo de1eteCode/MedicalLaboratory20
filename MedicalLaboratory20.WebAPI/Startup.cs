@@ -41,7 +41,7 @@ namespace MedicalLaboratory20.WebAPI
             services.AddDbContext<LaboratoryContext>(option =>
             {
                 option.UseLazyLoadingProxies();
-                option.UseSqlServer(Configuration["ConnectionStrings:localhost"], opt =>
+                option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
                 });
@@ -60,11 +60,12 @@ namespace MedicalLaboratory20.WebAPI
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserServiceRepository, UserServiceRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IUnitOfAuthUser, UnitOfAuthUser>();
 
             #if DEBUG
             services.AddTransient<IUnitRoot, UnitRoot>();
-#endif
+            #endif
 
             #endregion
             #region Auth
@@ -98,12 +99,7 @@ namespace MedicalLaboratory20.WebAPI
 
             #endregion
 
-            services.AddControllers()
-                .AddJsonOptions(opt =>
-                {
-                    // Отключает рекурсию в json ссылках
-                    opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-                });
+            services.AddControllers();
 
             services.AddSignalR();
             services.AddMvc();

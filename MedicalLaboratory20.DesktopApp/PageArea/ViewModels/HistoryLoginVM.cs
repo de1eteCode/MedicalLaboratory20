@@ -15,19 +15,21 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
     internal class HistoryLoginVM : PageVMBase
     {
-        private ObservableCollection<LogingAuth> _logingAuths;
-        public HistoryLoginVM()
-        {
-            _selectedFilter = Filters.First();
-        }
-
-        public override async void OnLoad()
+        private ObservableCollection<LogingAuth> _logingAuths = new();
+       
+        public override void OnLoad()
         {
             base.OnLoad();
-            var clientRest = Client.GetInstance().RestClient;
-            var response = await new AuthLoggerService(clientRest).GetDataLog();
+            GetData();
+        }
+
+        private async void GetData()
+        {
+            var client = Client.GetInstance();
+            var response = await new AuthLoggerService(client.RestClient).GetDataLog(client.User.AccessToken);
             var data = JsonSerializer.Deserialize<IEnumerable<LogingAuth>>(response.Content);
             _logingAuths = new ObservableCollection<LogingAuth>(data);
+            OnPropertyChanged(nameof(FilteredCollection));
         }
 
         public override string Title => "История входов";
@@ -35,9 +37,9 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
         #region Filters
 
         private string _searchQuery = string.Empty;
-        private Filter _selectedFilter;
+        private Filter? _selectedFilter;
 
-        public ObservableCollection<Filter> Filters = new()
+        public ObservableCollection<Filter> Filters { get; } = new()
         {
             new Filter("Логин", "Login"),
             new Filter("Причина", "Description"),
@@ -47,7 +49,12 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 
         public Filter SelectedFilter
         {
-            get => _selectedFilter;
+            get
+            {
+                if (_selectedFilter is null)
+                    _selectedFilter = Filters.First();
+                return _selectedFilter;
+            }
             set
             {
                 _selectedFilter = value;
@@ -62,10 +69,18 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
             {
                 _searchQuery = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredCollection));
             }
         }
 
-        public IEnumerable<LogingAuth> FilteredCollection => _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
+        public IEnumerable<LogingAuth> FilteredCollection
+        {
+            get
+            {
+                var a = _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
+                return a;
+            }
+        }
 
         #endregion
     }

@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 using MedicalLaboratory20.WebAPI.Controllers;
 using MedicalLaboratory20.WebAPI.JWT;
 using MedicalLaboratory20.WebAPI.Models;
-using MedicalLaboratory20.WebAPI.Models.Requests;
-using MedicalLaboratory20.WebAPI.Models.Results;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedModels;
 
 namespace MedicalLaboratory20.WebAPI.Auth.IntegrationTests
 {
@@ -67,7 +66,7 @@ namespace MedicalLaboratory20.WebAPI.Auth.IntegrationTests
             var jwtAuthManager = _serviceProvider.GetRequiredService<IJwtAuthManager>();
             var (principal, jwtSecurityToken) = jwtAuthManager.DecodeJwtToken(loginResult.AccessToken);
             Assert.AreEqual(credentials.Login, principal.FindFirst("Login").Value);
-            Assert.AreEqual("Лаборант", principal.FindFirst("Role").Value);
+            Assert.AreEqual("Лаборант", principal.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value);
             Assert.IsNotNull(jwtSecurityToken);
         }
 

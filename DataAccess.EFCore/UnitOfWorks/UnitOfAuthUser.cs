@@ -9,8 +9,11 @@ namespace DataAccess.EFCore.UnitOfWorks
         public UnitOfAuthUser(LaboratoryContext context) : base(context)
         {
             Users = new UserRepository(context);
+            Auths = new AuthRepository(context);
         }
 
         public IUserRepository Users { get; }
+
+        public IAuthRepository Auths { get; }
     }
 }

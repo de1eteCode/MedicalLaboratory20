@@ -4,8 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using MedicalLaboratory20.DesktopApp.Core;
-using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
 using System.Collections.Generic;
+using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
 using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
