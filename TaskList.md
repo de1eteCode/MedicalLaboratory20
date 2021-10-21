@@ -9,7 +9,8 @@
 -- О JWT - https://andrey.moveax.ru/post/asp-net-core-web-api-authentication-part-4-refresh-token-description
 
 ### Клиент:
-- Подгрузка нужных страниц, в зависимости от роли
+- Добавление поддержки модальных окон
+- Добавить модальные окна добавления пациентов и услуг
 
 
 
