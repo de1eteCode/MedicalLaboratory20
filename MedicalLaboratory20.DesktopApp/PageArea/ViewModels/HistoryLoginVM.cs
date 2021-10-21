@@ -77,8 +77,7 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
         {
             get
             {
-                var a = _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
-                return a;
+                return _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
             }
         }
 
