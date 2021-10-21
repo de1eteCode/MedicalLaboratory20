@@ -65,6 +65,7 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
                 {
                     Task.Run(() => vm.OnLoad());
                 }
+                Task.Run(() => vm.OnOpen());
                 CurrentPage = _pageController.GetPage(vm);
             }
         }

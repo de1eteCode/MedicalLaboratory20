@@ -15,5 +15,13 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.Abstract
         {
             IsLoaded = true;
         }
+
+        /// <summary>
+        /// Возникает при каждом открытии страницы
+        /// </summary>
+        public virtual void OnOpen()
+        {
+
+        }
     }
 }

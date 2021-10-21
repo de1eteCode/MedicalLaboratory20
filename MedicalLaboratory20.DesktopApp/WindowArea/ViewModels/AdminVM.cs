@@ -15,6 +15,15 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
         {
             RegisterPageWithVm<HistoryLoginVM, HistoryLogin>();
             RegisterPageWithVm<MaterialsVM, Materials>();
+
+#if DEBUG
+
+            RegisterPageWithVm<BiomaterialVM, Biomaterial>();
+            RegisterPageWithVm<ReportVM, Report>();
+            RegisterPageWithVm<AnalyzeVM, Analyze>();
+            RegisterPageWithVm<ReportAccountantVM, ReportAccountant>();
+
+#endif
         }
     }
 }

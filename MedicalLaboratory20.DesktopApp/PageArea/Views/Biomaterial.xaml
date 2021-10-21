@@ -12,26 +12,162 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="0"
-                   Grid.Row="0">
-            <TextBlock Text="Код пробирки:"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Center"
-                       Margin="10,5"/>
-            <TextBox HorizontalAlignment="Stretch"
-                     VerticalAlignment="Center"
-                     Margin="10,5"/>
+        <Grid Grid.Column="0"
+              Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <DockPanel>
+                <TextBlock Text="Код пробирки:"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Margin="10,5"/>
+                <TextBlock HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Margin="10,5"
+                           Text="{Binding BarcodeDisplay}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="1">
+                <Button HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10"
+                        Content="Создать код"
+                        Command="{Binding CreateNewCustomBarcodeCommand}"
+                        Padding="6,2"/>
+                <TextBox HorizontalAlignment="Stretch"
+                         VerticalAlignment="Center"
+                         Text=""
+                         Margin="10,5"/>
+            </DockPanel>
+        </Grid>
+        <Image
+               Grid.Column="1"
+               Grid.Row="0"
+               Margin="10,10,10,10"
+               Source="{Binding BarcodeImage}"/>
 
-        </DockPanel>
+        <GroupBox Grid.Column="0"
+                  Grid.Row="1"
+                  Header="Пациент"
+                  Margin="10"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="5"
+                                   Text="ФИО:"/>
+                        <TextBox HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Center"
+                                 Margin="5"/>
+                    </DockPanel>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="1"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Center"
+                                   Text="Выбран:"/>
+                        <TextBlock Grid.Column="1"
+                                   Margin="1"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Center"
+                                   Text="---"/>
+                    </Grid>
+                </Grid>
+                <ListView Grid.Row="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Margin="5">
+                    
+                </ListView>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Stretch"
+                        Margin="5"
+                        Command="{Binding UpdateListPatientsCommand}"
+                        Content="Обновить список"/>
+                    <Button Grid.Column="1"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Stretch"
+                        Margin="5"
+                        Command="{Binding AddNewPatientCommand}"
+                        Content="Добавить нового пациента"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1"
+                  Grid.Row="1"
+                  Header="Услуги"
+                  Margin="10"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <ListView HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Margin="5">
+
+                </ListView>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="5"
+                            Command="{Binding AddNewServiceCommand}"
+                            Content="Новая"/>
+                    <Button Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="5"
+                            Command="{Binding AddServiceCommand}"
+                            Content="Добавить"/>
+                    <Button Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="5"
+                            Command="{Binding RemoveServiceCommand}"
+                            Content="Удалить"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Page>
