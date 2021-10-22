@@ -1,24 +1,20 @@
 ﻿using MedicalLaboratory20.DesktopApp.PageArea.Abstract;
-using NetBarcode;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharedModels;
-using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
+using NetBarcode;
+using SharedModels;
+using System;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    class BiomaterialVM : PageVMBase
+    class BiomaterialVm : PageVmBase
     {
-        public string _customBarcode = string.Empty;
+        private string _customBarcode = string.Empty;
         private BarcodeRecord _barcode = new BarcodeRecord("0", "000000");
 
-        public BiomaterialVM()
+        public BiomaterialVm()
         {
             CreateNewCustomBarcodeCommand = new RelayCommand(CreateNewCustomBarcode);
             AddNewPatientCommand = new RelayCommand(AddNewPatient);
@@ -107,7 +103,7 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
             var day = Convert.ToInt32(CustomBarcode.Substring(1, 2));
             var month = Convert.ToInt32(CustomBarcode.Substring(3, 2));
             var year = Convert.ToInt32(CustomBarcode.Substring(4, 2));
-            var code = CustomBarcode.Substring(6);
+            var code = CustomBarcode.Substring(6, 6);
 
             if (year < 0 || day < 0 || day > 31 || month < 0 || month > 12)
             {
@@ -125,12 +121,12 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 
         private void AddNewPatient()
         {
-            OpenDialog(new WindowArea.ViewModels.Modals.AddPatientVM());
+            OpenDialog(new WindowArea.ViewModels.Modals.AddPatientVm());
         }
 
         private void AddNewService()
         {
-            OpenDialog(new WindowArea.ViewModels.Modals.AddServiceVM());
+            OpenDialog(new WindowArea.ViewModels.Modals.AddServiceVm());
         }
 
         private void AddService()

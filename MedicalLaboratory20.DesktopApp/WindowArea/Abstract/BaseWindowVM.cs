@@ -1,36 +1,29 @@
 ﻿using MedicalLaboratory20.DesktopApp.WindowArea.ViewModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
 {
-    abstract class BaseWindowVM : ObservableObject
+    abstract class BaseWindowVm : ObservableObject
     {
-        protected Dispatcher _dispatcher;
+        protected Dispatcher Dispatcher;
 
-        public BaseWindowVM()
+        protected BaseWindowVm()
         {
-            _dispatcher = Dispatcher.CurrentDispatcher;
+            Dispatcher = Dispatcher.CurrentDispatcher;
         }
 
-        public ICommand LogOutCommand
-        {
-            get
-            {
-                return new RelayCommand(LogOut);
-            }
-        }
+        public ICommand LogOutCommand => new RelayCommand(LogOut);
 
         private void LogOut()
         {
-            OpenNewWindowAndCloseOld(new LoginVM());
+            OpenNewWindowAndCloseOld(new LoginVm());
         }
 
-        protected void OpenNewWindowAndCloseOld(BaseWindowVM vm)
+        protected void OpenNewWindowAndCloseOld(BaseWindowVm vm)
         {
             var app = (App)Application.Current;
             app.WinController.ShowWindow(vm);

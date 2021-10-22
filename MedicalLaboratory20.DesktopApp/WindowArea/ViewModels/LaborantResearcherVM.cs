@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
-    class LaborantResearcherVM : LaborantVM
+    internal class LaborantResearcherVm : LaborantVm
     {
-        public LaborantResearcherVM()
+        public LaborantResearcherVm()
         {
-            RegisterPageWithVm<AnalyzeVM, Analyze>();
+            RegisterPageWithVm<AnalyzeVm, Analyze>();
         }
     }
 }

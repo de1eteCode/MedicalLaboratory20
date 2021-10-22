@@ -9,10 +9,10 @@ namespace MedicalLaboratory20.DesktopApp.Services.ApiServices
 
         public async Task<IRestResponse> Authorizate(string login, string password)
         {
-            IRestRequest request = new RestRequest($"{_cfg.HttpServerAddress}/auth/login", Method.POST, DataFormat.Json)
+            IRestRequest request = new RestRequest($"{Cfg.HttpServerAddress}/auth/login", Method.POST, DataFormat.Json)
                 .AddJsonBody(new { login, password });
 
-            var response = await _client.ExecuteAsync(request);
+            var response = await Client.ExecuteAsync(request);
             return response;
         }
     }

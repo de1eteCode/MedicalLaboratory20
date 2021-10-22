@@ -10,21 +10,21 @@ namespace MedicalLaboratory20.DesktopApp.Core
         private readonly Dictionary<Type, Type> _vmToWindowMap = new();
         private readonly Dictionary<object, Window> _openedWindows = new();
 
-        public void RegisterVMAndWindow<VM, Win>()
-            where VM : class
-            where Win : Window
+        public void RegisterVmAndWindow<TVm, TWin>()
+            where TVm : class
+            where TWin : Window
         {
-            var typeVm = typeof(VM);
+            var typeVm = typeof(TVm);
             if (typeVm.IsInterface || typeVm.IsAbstract)
                 throw new ArgumentException(nameof(typeVm) + " can't to register");
 
             if (_vmToWindowMap.ContainsKey(typeVm))
                 throw new InvalidOperationException(nameof(typeVm) + " is registered");
 
-            _vmToWindowMap[typeVm] = typeof(Win);
+            _vmToWindowMap[typeVm] = typeof(TWin);
         }
 
-        private Window CreateWindowWithVM(object vm)
+        private Window CreateWindowWithVm(object vm)
         {
             if (!_vmToWindowMap.TryGetValue(vm.GetType(), out Type? windType))
                 throw new InvalidOperationException($"For {nameof(vm)} not found window");
@@ -45,7 +45,7 @@ namespace MedicalLaboratory20.DesktopApp.Core
             if (_openedWindows.ContainsKey(vm))
                 throw new InvalidOperationException($"UI for {nameof(vm)} is displayed");
 
-            var window = CreateWindowWithVM(vm);
+            var window = CreateWindowWithVm(vm);
             _openedWindows[vm] = window;
             window.Show();
         }
@@ -61,7 +61,7 @@ namespace MedicalLaboratory20.DesktopApp.Core
 
         public async Task ShowModal(object vm)
         {
-            var window = CreateWindowWithVM(vm);
+            var window = CreateWindowWithVm(vm);
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             await window.Dispatcher.InvokeAsync(() => window.ShowDialog());
         }

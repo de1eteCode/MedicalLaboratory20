@@ -4,13 +4,13 @@ namespace MedicalLaboratory20.DesktopApp.Services.ApiServices
 {
     abstract class ApiService
     {
-        protected IRestClient _client;
-        protected ConfigurationService _cfg;
+        protected IRestClient Client;
+        protected ConfigurationService Cfg;
 
-        public ApiService(IRestClient client)
+        protected ApiService(IRestClient client)
         {
-            _client = client;
-            _cfg = ConfigurationService.GetInstance();
+            Client = client;
+            Cfg = ConfigurationService.GetInstance();
         }
     }
 }

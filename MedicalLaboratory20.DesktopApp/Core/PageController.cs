@@ -9,30 +9,31 @@ namespace MedicalLaboratory20.DesktopApp.Core
     class PageController
     {
         private readonly Dictionary<Type, Type> _vmToPageMap = new();
-        private readonly Dictionary<PageVMBase, Page> _createdPages = new();
+        private readonly Dictionary<PageVmBase, Page> _createdPages = new();
 
-        public IEnumerable<PageVMBase> Pages => _createdPages.Keys;
+        public IEnumerable<PageVmBase> Pages => _createdPages.Keys;
 
-        public void RegisterVMAndPage<VM, Pag>()
-            where VM : PageVMBase
-            where Pag : Page
+        public void RegisterVmAndPage<TVm, TPag>()
+            where TVm : PageVmBase
+            where TPag : Page
         {
-            var typeVm = typeof(VM);
+            var typeVm = typeof(TVm);
             if (typeVm.IsInterface || typeVm.IsAbstract)
                 throw new ArgumentException(typeVm.Name + " can't to register");
 
             if (_vmToPageMap.ContainsKey(typeVm))
                 throw new InvalidOperationException(typeVm.Name + " is registered");
 
-            _vmToPageMap[typeVm] = typeof(Pag);
+            _vmToPageMap[typeVm] = typeof(TPag);
 
             // Костыль
-            var vm = (PageVMBase)Activator.CreateInstance(typeVm);
-            var page = CreatePageWithVM(vm);
+            if (Activator.CreateInstance(typeVm) is not PageVmBase vm) 
+                return;
+            var page = CreatePageWithVm(vm);
             _createdPages[vm] = page;
         }
 
-        private Page CreatePageWithVM(PageVMBase vm)
+        private Page CreatePageWithVm(PageVmBase vm)
         {
             if (!_vmToPageMap.TryGetValue(vm.GetType(), out Type? pag))
                 throw new InvalidOperationException(nameof(vm));
@@ -40,12 +41,12 @@ namespace MedicalLaboratory20.DesktopApp.Core
             if (pag is null)
                 throw new ArgumentNullException(nameof(pag));
 
-            var page = (Page)Activator.CreateInstance(pag);
+            var page = Activator.CreateInstance(pag) as Page;
             page.DataContext = vm;
             return page;
         }
 
-        public Page GetPage(PageVMBase vm)
+        public Page GetPage(PageVmBase vm)
         {
             if (vm is null)
                 throw new ArgumentNullException(nameof(vm));
@@ -53,12 +54,12 @@ namespace MedicalLaboratory20.DesktopApp.Core
             if (_createdPages.TryGetValue(vm, out var page))
                 return page;
 
-            page = CreatePageWithVM(vm);
+            page = CreatePageWithVm(vm);
             _createdPages[vm] = page;
             return page;
         }
 
-        public void HidePage(PageVMBase vm)
+        public void HidePage(PageVmBase vm)
         {
             if (!_createdPages.TryGetValue(vm, out var page))
                 throw new InvalidOperationException(nameof(vm));
@@ -69,7 +70,7 @@ namespace MedicalLaboratory20.DesktopApp.Core
         public Page GetFirstPage()
         {
             if (_createdPages.Count == 0)
-                GetPage((PageVMBase)Activator.CreateInstance(_vmToPageMap.FirstOrDefault().Key));
+                GetPage((PageVmBase)Activator.CreateInstance(_vmToPageMap.FirstOrDefault().Key)!);
 
             return _createdPages.FirstOrDefault().Value;
         }
@@ -77,7 +78,7 @@ namespace MedicalLaboratory20.DesktopApp.Core
         public Page GetLastPage()
         {
             if (_createdPages.Count == 0)
-                GetPage((PageVMBase)Activator.CreateInstance(_vmToPageMap.LastOrDefault().Key));
+                GetPage((PageVmBase)Activator.CreateInstance(_vmToPageMap.LastOrDefault().Key)!);
 
             return _createdPages.LastOrDefault().Value;
         }

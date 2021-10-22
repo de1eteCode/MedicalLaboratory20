@@ -18,6 +18,7 @@ namespace DataAccess.EFCore.UnitOfWorks
             Users = new UserRepository(context);
             UserServices = new UserServiceRepository(context);
             Roles = new RoleRepository(context);
+            Auths = new AuthRepository(context);
         }
 
         public IInsuranceRepository Insurances { get; }
@@ -39,5 +40,6 @@ namespace DataAccess.EFCore.UnitOfWorks
         public IUserServiceRepository UserServices { get; }
 
         public IRoleRepository Roles { get; }
+        public IAuthRepository Auths { get; }
     }
 }

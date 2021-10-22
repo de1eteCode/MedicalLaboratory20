@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
 {
-    abstract class BaseWindowVMWithPages : BaseWindowVM
+    abstract class BaseWindowVmWithPages : BaseWindowVm
     {
         private readonly PageController _pageController;
         private Page? _currentPage;
 
-        public BaseWindowVMWithPages()
+        protected BaseWindowVmWithPages()
         {
             _pageController = new PageController();
 
-            ChangePageCommand = new RelayCommand<PageVMBase>(SwitchPage);
+            ChangePageCommand = new RelayCommand<PageVmBase>(SwitchPage);
             ClosePageCommand = new RelayCommand(ClosePage);
         }
 
-        public IEnumerable<PageVMBase> Pages => _pageController.Pages;
+        public IEnumerable<PageVmBase> Pages => _pageController.Pages;
 
         public Page CurrentPage
         {
@@ -45,34 +45,34 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
 
         #endregion
 
-        protected void RegisterPageWithVm<VM, Pag>()
-            where VM : PageVMBase
-            where Pag : Page
+        protected void RegisterPageWithVm<TVm, TPag>()
+            where TVm : PageVmBase
+            where TPag : Page
         {
-            _pageController.RegisterVMAndPage<VM, Pag>();
+            _pageController.RegisterVmAndPage<TVm, TPag>();
 
             if (CurrentPage is null)
             {
-                SwitchPage((PageVMBase)_pageController.GetFirstPage().DataContext);
+                SwitchPage((PageVmBase)_pageController.GetFirstPage().DataContext);
             }
         }
 
-        private void SwitchPage(PageVMBase vm)
+        private void SwitchPage(PageVmBase vm)
         {
             if (vm != CurrentPage?.DataContext)
             {
                 if (vm.IsLoaded is false)
                 {
-                    Task.Run(() => vm.OnLoad());
+                    Task.Run(vm.OnLoad);
                 }
-                Task.Run(() => vm.OnOpen());
+                Task.Run(vm.OnOpen);
                 CurrentPage = _pageController.GetPage(vm);
             }
         }
 
         private void ClosePage()
         {
-            PageVMBase vmForClose = (PageVMBase)_currentPage.DataContext;
+            PageVmBase vmForClose = (PageVmBase)_currentPage.DataContext;
             CurrentPage = _pageController.GetLastPage();
             _pageController.HidePage(vmForClose);
         }

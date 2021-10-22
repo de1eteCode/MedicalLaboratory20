@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels.Modals
 {
-    class AddServiceVM : BaseModalWindowVM
+    internal class AddServiceVm : BaseModalWindowVm
     {
     }
 }

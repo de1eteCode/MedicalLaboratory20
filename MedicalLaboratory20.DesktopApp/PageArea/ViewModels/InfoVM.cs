@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    class InfoVM : PageVMBase
+    class InfoVm : PageVmBase
     {
         private LoginResult _user;
 

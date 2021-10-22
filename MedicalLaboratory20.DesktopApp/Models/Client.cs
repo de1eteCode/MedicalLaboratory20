@@ -12,17 +12,17 @@ using SharedModels;
 
 namespace MedicalLaboratory20.DesktopApp.Models
 {
-    class Client
+    internal class Client
     {
         #region Singleton
 
-        private static readonly object _syncObj = new();
+        private static readonly object SyncObj = new();
         private static Client _client;
         public static Client GetInstance()
         {
             if (_client is null)
             {
-                lock (_syncObj)
+                lock (SyncObj)
                 {
                     if (_client is null)
                     {
@@ -44,10 +44,10 @@ namespace MedicalLaboratory20.DesktopApp.Models
         private readonly ConfigurationService _configurationService;
         private readonly RestClient _restClient;
 
-        public event Action<string> Error;
+        public event Action<string>? Error;
 
         public RestClient RestClient => _restClient;
-        public LoginResult User { get; private set; }
+        public LoginResult? User { get; private set; }
         
         public async Task<bool> Auth(string login, string password)
         {

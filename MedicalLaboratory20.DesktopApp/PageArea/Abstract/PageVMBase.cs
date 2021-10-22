@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.Abstract
 {
-    abstract class PageVMBase : ObservableObject
+    abstract class PageVmBase : ObservableObject
     {
         public bool IsLoaded { get; set; }
 
@@ -27,7 +27,7 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.Abstract
         /// Открытие модальных окон
         /// </summary>
         /// <param name="vm">Объект ViewModal для окна</param>
-        protected void OpenDialog(BaseModalWindowVM vm)
+        protected void OpenDialog(BaseModalWindowVm vm)
         {
             var app = (App)Application.Current;
             app.WinController.ShowModal(vm);

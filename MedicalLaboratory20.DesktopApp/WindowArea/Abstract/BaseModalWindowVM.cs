@@ -1,20 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.Abstract
 {
-    class BaseModalWindowVM : ObservableObject
+    abstract class BaseModalWindowVm : ObservableObject
     {
-
-        public BaseModalWindowVM()
-        {
-            
-        }
-
-
+        
     }
 }

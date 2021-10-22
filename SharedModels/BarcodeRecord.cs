@@ -10,7 +10,7 @@ namespace SharedModels
 
         public override string ToString()
         {
-            return $"{UniqueCode}{Time.ToString("ddMMyy")}{Code}";
+            return $"{UniqueCode}{Time:ddMMyy}{Code}";
         }
 
         public BarcodeRecord()

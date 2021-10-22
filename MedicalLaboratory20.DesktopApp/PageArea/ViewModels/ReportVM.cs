@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    class ReportVM : PageVMBase
+    class ReportVm : PageVmBase
     {
         public override string Title => "Отчеты";
     }

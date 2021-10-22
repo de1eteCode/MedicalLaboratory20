@@ -9,14 +9,14 @@ using SharedModels;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
-    class LoginVM : BaseWindowVM
+    internal class LoginVm : BaseWindowVm
     {
-        private Client _client;
-        private int _tryLogIn = 0;
-        private Captcha _captcha;
+        private readonly Client _client;
+        private readonly Captcha _captcha;
         private string _currentCaptcha;
+        private int _tryLogIn = 0;
 
-        public LoginVM()
+        public LoginVm()
         {
             _client = Client.GetInstance();
             _captcha = new Captcha();
@@ -104,16 +104,16 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
                 switch (_client.User.RoleId)
                 {
                     case "1":
-                        OpenNewWindowAndCloseOld(new LaborantVM());
+                        OpenNewWindowAndCloseOld(new LaborantVm());
                         break;
                     case "2":
-                        OpenNewWindowAndCloseOld(new LaborantResearcherVM());
+                        OpenNewWindowAndCloseOld(new LaborantResearcherVm());
                         break;
                     case "3":
-                        OpenNewWindowAndCloseOld(new AccountantVM());
+                        OpenNewWindowAndCloseOld(new AccountantVm());
                         break;
                     case "4":
-                        OpenNewWindowAndCloseOld(new AdminVM());
+                        OpenNewWindowAndCloseOld(new AdminVm());
                         break;
 
                     default:

@@ -1,26 +1,21 @@
 ﻿using MedicalLaboratory20.DesktopApp.PageArea.ViewModels;
 using MedicalLaboratory20.DesktopApp.PageArea.Views;
-using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
 {
-    class LaborantVM : WorkflowVM
+    internal class LaborantVm : WorkflowVm
     {
         private TimeSpan _session = new TimeSpan(2, 30, 0);
         private readonly TimeSpan _removeTime = new TimeSpan(0, 0, -1);
 
-        private Timer _timer;
+        private readonly Timer _timer;
 
-        public LaborantVM()
+        public LaborantVm()
         {
-            RegisterPageWithVm<BiomaterialVM, Biomaterial>();
-            RegisterPageWithVm<ReportVM, Report>();
+            RegisterPageWithVm<BiomaterialVm, Biomaterial>();
+            RegisterPageWithVm<ReportVm, Report>();
 
             _timer = new Timer(TimeUpdate, new AutoResetEvent(false), 0, 1000);
         }
@@ -33,10 +28,10 @@ namespace MedicalLaboratory20.DesktopApp.WindowArea.ViewModels
             OnPropertyChanged(nameof(TimeToEndSession));
             if (_session.TotalSeconds < 1)
             {
-                _dispatcher.Invoke(() =>
+                Dispatcher.Invoke(() =>
                 {
                     _timer.Dispose();
-                    OpenNewWindowAndCloseOld(new LoginVM());
+                    OpenNewWindowAndCloseOld(new LoginVm());
                 });
             }
         }

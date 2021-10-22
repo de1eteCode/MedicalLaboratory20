@@ -16,21 +16,21 @@ namespace MedicalLaboratory20.DesktopApp
 
         public App()
         {
-            WinController.RegisterVMAndWindow<LoginVM, Login>();
-            WinController.RegisterVMAndWindow<LaborantVM, Workflow>();
-            WinController.RegisterVMAndWindow<LaborantResearcherVM, Workflow>();
-            WinController.RegisterVMAndWindow<AccountantVM, Workflow>();
-            WinController.RegisterVMAndWindow<AdminVM, Workflow>();
+            WinController.RegisterVmAndWindow<LoginVm, Login>();
+            WinController.RegisterVmAndWindow<LaborantVm, Workflow>();
+            WinController.RegisterVmAndWindow<LaborantResearcherVm, Workflow>();
+            WinController.RegisterVmAndWindow<AccountantVm, Workflow>();
+            WinController.RegisterVmAndWindow<AdminVm, Workflow>();
 
             //modals
-            WinController.RegisterVMAndWindow<AddPatientVM, AddPatient>();
-            WinController.RegisterVMAndWindow<AddServiceVM, AddService>();
+            WinController.RegisterVmAndWindow<AddPatientVm, AddPatient>();
+            WinController.RegisterVmAndWindow<AddServiceVm, AddService>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            WinController.ShowWindow(new LoginVM());
+            WinController.ShowWindow(new LoginVm());
         }
     }
 }

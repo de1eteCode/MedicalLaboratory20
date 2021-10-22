@@ -5,13 +5,13 @@ namespace MedicalLaboratory20.DesktopApp.Services
     internal class ConfigurationService
     {
         #region Singleton
-        private static readonly object _lock = new();
+        private static readonly object Lock = new();
         private static ConfigurationService? _configurationService;
         public static ConfigurationService GetInstance()
         {
             if (_configurationService is null)
             {
-                lock (_lock)
+                lock (Lock)
                 {
                     if (_configurationService is null)
                     {

@@ -13,7 +13,7 @@ using MedicalLaboratory20.DesktopApp.Services.ApiServices;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    internal class HistoryLoginVM : PageVMBase
+    internal class HistoryLoginVm : PageVmBase
     {
         private ObservableCollection<LogingAuth> _logingAuths = new();
        

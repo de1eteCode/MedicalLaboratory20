@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
-    internal class MaterialsVM : PageVMBase
+    internal class MaterialsVm : PageVmBase
     {
         public override string Title => "Материалы";
     }
