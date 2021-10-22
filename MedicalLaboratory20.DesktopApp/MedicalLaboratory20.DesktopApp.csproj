@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WindowArea\WindowModals\**" />
+    <EmbeddedResource Remove="WindowArea\WindowModals\**" />
+    <None Remove="WindowArea\WindowModals\**" />
+    <Page Remove="WindowArea\WindowModals\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="config.json" />
     <None Remove="Resource\acountat.png" />
     <None Remove="Resource\admin.png" />
@@ -42,10 +49,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WindowArea\WindowModals\" />
   </ItemGroup>
 
 </Project>

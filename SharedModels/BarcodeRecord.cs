@@ -25,6 +25,13 @@ namespace SharedModels
             }
         }
 
+        public BarcodeRecord(string uniqueCode, int day, int month, int year, string code)
+        {
+            UniqueCode = uniqueCode;
+            Code = code;
+            Time = new DateTime(year, month, day);
+        }
+
         public BarcodeRecord(string uniqueCode, DateTime time, string code)
         {
             UniqueCode = uniqueCode;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using MedicalLaboratory20.DesktopApp.WindowArea.Abstract;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System.Windows;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.Abstract
 {
@@ -19,9 +21,16 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.Abstract
         /// <summary>
         /// Возникает при каждом открытии страницы
         /// </summary>
-        public virtual void OnOpen()
-        {
+        public virtual void OnOpen() { }
 
+        /// <summary>
+        /// Открытие модальных окон
+        /// </summary>
+        /// <param name="vm">Объект ViewModal для окна</param>
+        protected void OpenDialog(BaseModalWindowVM vm)
+        {
+            var app = (App)Application.Current;
+            app.WinController.ShowModal(vm);
         }
     }
 }

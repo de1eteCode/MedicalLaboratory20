@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MedicalLaboratory20.DesktopApp.Core
@@ -56,6 +57,13 @@ namespace MedicalLaboratory20.DesktopApp.Core
 
             wind.Close();
             _openedWindows.Remove(vm);
+        }
+
+        public async Task ShowModal(object vm)
+        {
+            var window = CreateWindowWithVM(vm);
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            await window.Dispatcher.InvokeAsync(() => window.ShowDialog());
         }
     }
 }

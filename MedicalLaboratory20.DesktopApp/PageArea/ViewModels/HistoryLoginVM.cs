@@ -73,13 +73,7 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
             }
         }
 
-        public IEnumerable<LogingAuth> FilteredCollection
-        {
-            get
-            {
-                return _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
-            }
-        }
+        public IEnumerable<LogingAuth> FilteredCollection => _logingAuths.Where(item => SelectedFilter.IsEqual(item, SearchQuery));
 
         #endregion
     }

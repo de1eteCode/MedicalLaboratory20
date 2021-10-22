@@ -41,7 +41,7 @@ namespace MedicalLaboratory20.WebAPI
             services.AddDbContext<LaboratoryContext>(option =>
             {
                 option.UseLazyLoadingProxies();
-                option.UseSqlServer(Configuration["ConnectionStrings:localhost"], opt =>
+                option.UseSqlServer(Configuration["ConnectionStrings:pk"], opt =>
                 {
                     opt.MigrationsAssembly(typeof(LaboratoryContext).Assembly.FullName);
                 });

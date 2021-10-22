@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using SharedModels;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows;
 
 namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 {
     class BiomaterialVM : PageVMBase
     {
+        public string _customBarcode = string.Empty;
         private BarcodeRecord _barcode = new BarcodeRecord("0", "000000");
 
         public BiomaterialVM()
@@ -23,7 +25,6 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
             AddNewServiceCommand = new RelayCommand(AddNewService);
             AddServiceCommand = new RelayCommand(AddService);
             RemoveServiceCommand = new RelayCommand(RemoveService);
-            UpdateListPatientsCommand = new RelayCommand(UpdateListPatients);
         }
 
         #region Properties
@@ -31,6 +32,17 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
         public override string Title => "Биоматериал";
         public string BarcodeDisplay => _barcode.ToString();
         public byte[] BarcodeImage => GenerateBarcode()?.GetByteArray();
+        public string CustomBarcode
+        {
+            get => _customBarcode;
+            set
+            {
+                if (value.Length > 13)
+                    return;
+                _customBarcode = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
         #region Commands
@@ -40,7 +52,6 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
         public ICommand AddNewServiceCommand { get; }
         public ICommand AddServiceCommand { get; }
         public ICommand RemoveServiceCommand { get; }
-        public ICommand UpdateListPatientsCommand { get; }
 
         #endregion
         #region Events
@@ -72,17 +83,54 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
 
         private void CreateNewCustomBarcode()
         {
+            if (string.IsNullOrEmpty(CustomBarcode) || CustomBarcode.Length != 13)
+            {
+                MessageBox.Show("Введенный баркод не является действительным",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return;
+            }
+            foreach (var symbol in CustomBarcode)
+            {
+                if (Char.IsDigit(symbol) is false)
+                {
+                    MessageBox.Show("Введенный баркод не является действительным",
+                               "Ошибка",
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Error);
+                    return;
+                }
+            }
 
+            var unique = CustomBarcode.Substring(0, 1);
+            var day = Convert.ToInt32(CustomBarcode.Substring(1, 2));
+            var month = Convert.ToInt32(CustomBarcode.Substring(3, 2));
+            var year = Convert.ToInt32(CustomBarcode.Substring(4, 2));
+            var code = CustomBarcode.Substring(6);
+
+            if (year < 0 || day < 0 || day > 31 || month < 0 || month > 12)
+            {
+                MessageBox.Show($"Дата {day}.{month}.{year+2000} не существует",
+                               "Ошибка",
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Error);
+                return;
+            }
+
+            _barcode = new BarcodeRecord(unique, day, month, year, code);
+            OnPropertyChanged(nameof(BarcodeDisplay));
+            OnPropertyChanged(nameof(BarcodeImage));
         }
 
         private void AddNewPatient()
         {
-
+            OpenDialog(new WindowArea.ViewModels.Modals.AddPatientVM());
         }
 
         private void AddNewService()
         {
-
+            OpenDialog(new WindowArea.ViewModels.Modals.AddServiceVM());
         }
 
         private void AddService()
@@ -91,11 +139,6 @@ namespace MedicalLaboratory20.DesktopApp.PageArea.ViewModels
         }
 
         private void RemoveService()
-        {
-
-        }
-
-        private void UpdateListPatients()
         {
 
         }
